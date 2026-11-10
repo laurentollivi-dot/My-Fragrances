@@ -1,45 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Fragrance Layering Closet</title>
+    <title>My Layering Closet</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .animated-bg {
-            background: linear-gradient(-45deg, #fff5f0, #fce4ec, #f3e5f5, #fff8e7, #ffebee);
-            background-size: 400% 400%;
-            animation: gradientBG 18s ease infinite;
-        }
-        .font-script {
-            font-family: 'Great Vibes', cursive;
-        }
-        .font-serif-title {
-            font-family: 'Playfair Display', serif;
-        }
-        .font-sans-body {
+        body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fae8ff 100%);
+            min-height: 100vh;
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(243, 232, 226, 0.8);
+        .script-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
         }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -50,437 +25,583 @@
         }
     </style>
 </head>
-<body class="animated-bg min-h-full font-sans-body text-stone-800 antialiased flex flex-col selection:bg-rose-100 selection:text-rose-900">
+<body class="text-slate-800 antialiased pb-24">
 
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-40 glass-nav shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo Container -->
-            <div class="flex items-center space-x-3 shrink-0">
-                <div class="w-11 h-11 rounded-full overflow-hidden ring-2 ring-rose-200/60 shadow-inner flex items-center justify-center bg-rose-50">
-                    <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=500" alt="Fragrance Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/fce7f3/be185d?text=Closet'">
+    <!-- Top Navigation / Header -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-pink-100 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
+                    <img src="image_2.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="script-title text-xl sm:text-2xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                        My Layering Closet
+                    </h1>
+                    <p class="text-xs text-slate-500 font-medium">102 Custom Fragrances & Layers</p>
                 </div>
             </div>
-
-            <!-- Centered Bolder Title -->
-            <div class="flex-1 text-center px-2 min-w-0">
-                <h1 class="font-script text-3xl sm:text-4xl font-bold tracking-normal text-stone-900 truncate leading-tight">
-                    My Layering Closet
-                </h1>
-            </div>
-
-            <!-- Compact Plus Icon Button -->
-            <div class="flex items-center space-x-2 shrink-0">
-                <button onclick="openAddModal()" class="w-10 h-10 rounded-full bg-rose-900 hover:bg-rose-800 text-amber-50 shadow-md hover:shadow-lg transition-all flex items-center justify-center font-medium active:scale-95" title="Add Fragrance">
-                    <i data-lucide="plus" class="w-5 h-5"></i>
+            
+            <div class="flex items-center gap-2">
+                <button onclick="openAddModal()" class="w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 text-white flex items-center justify-center shadow-md transition-transform active:scale-95 text-xl font-bold" title="Add Fragrance">
+                    +
                 </button>
             </div>
         </div>
-
-        <!-- Navigation Tabs -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex space-x-8 border-t border-stone-200/40 pt-2 pb-3 text-sm font-medium">
-                <button onclick="switchTab('closet')" id="tab-closet" class="tab-btn text-rose-900 border-b-2 border-rose-800 pb-1 flex items-center space-x-2">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    <span>All Items (<span id="total-count">102</span>)</span>
-                </button>
-                <button onclick="switchTab('wizard')" id="tab-wizard" class="tab-btn text-stone-500 hover:text-stone-800 pb-1 flex items-center space-x-2">
-                    <i data-lucide="wand-2" class="w-4 h-4"></i>
-                    <span>Layering Wizard</span>
-                </button>
-                <button onclick="switchTab('favorites')" id="tab-favorites" class="tab-btn text-stone-500 hover:text-stone-800 pb-1 flex items-center space-x-2">
-                    <i data-lucide="heart" class="w-4 h-4"></i>
-                    <span>Saved Combos</span>
-                </button>
-            </nav>
+        
+        <!-- Tab Navigation -->
+        <div class="max-w-4xl mx-auto px-4 flex border-t border-slate-100">
+            <button onclick="switchTab('closet')" id="tab-closet" class="flex-1 py-3 text-sm font-semibold text-center border-b-2 border-pink-600 text-pink-600 transition-colors">
+                Closet (<span id="total-count">102</span>)
+            </button>
+            <button onclick="switchTab('wizard')" id="tab-wizard" class="flex-1 py-3 text-sm font-medium text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors">
+                ✨ Layering Wizard
+            </button>
+            <button onclick="switchTab('favorites')" id="tab-favorites" class="flex-1 py-3 text-sm font-medium text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors">
+                🤍 Favorites (<span id="fav-count">0</span>)
+            </button>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- SECTION 1: CLOSET VIEW -->
-        <section id="view-closet" class="space-y-6">
-            <!-- Filter & Search Bar -->
-            <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-                <div class="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center">
-                    <div class="relative flex-1">
-                        <i data-lucide="search" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"></i>
-                        <input type="text" id="search-input" oninput="filterCloset()" placeholder="Search perfumes, lotions, oils, mists..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-white/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/30 text-stone-800 text-sm">
-                    </div>
-                    <div class="flex gap-2 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
-                        <button onclick="filterType('all')" class="type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-stone-900 text-white shadow-sm whitespace-nowrap" data-type="all">All</button>
-                        <button onclick="filterType('Perfume')" class="type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white/80 text-stone-700 hover:bg-white border border-stone-200 whitespace-nowrap" data-type="Perfume">Perfumes</button>
-                        <button onclick="filterType('Lotion')" class="type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white/80 text-stone-700 hover:bg-white border border-stone-200 whitespace-nowrap" data-type="Lotion">Lotions</button>
-                        <button onclick="filterType('Oil')" class="type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white/80 text-stone-700 hover:bg-white border border-stone-200 whitespace-nowrap" data-type="Oil">Oils</button>
-                        <button onclick="filterType('Mist')" class="type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white/80 text-stone-700 hover:bg-white border border-stone-200 whitespace-nowrap" data-type="Mist">Mists</button>
-                    </div>
+    <!-- Main App Container -->
+    <main class="max-w-4xl mx-auto px-4 pt-4">
+
+        <!-- CLOSET TAB VIEW -->
+        <div id="view-closet" class="space-y-4">
+            <div class="flex flex-col sm:flex-row gap-2">
+                <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">🔍</span>
+                    <input type="text" id="searchInput" oninput="filterItems()" placeholder="Search perfumes, lotions, oils, mists..." class="w-full pl-10 pr-4 py-2 bg-white rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm shadow-sm">
                 </div>
-            </div>
-
-            <!-- Fragrance Grid -->
-            <div id="fragrance-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                <!-- Injected via JavaScript -->
-            </div>
-        </section>
-
-        <!-- SECTION 2: WIZARD VIEW -->
-        <section id="view-wizard" class="hidden space-y-6">
-            <div class="glass-card rounded-2xl p-6 sm:p-8 text-center max-w-2xl mx-auto space-y-4">
-                <h2 class="font-serif-title text-2xl sm:text-3xl font-bold text-stone-900">Scent Combination Generator</h2>
-                <p class="text-stone-600 text-sm">Select a mood to generate a custom 3-layer fragrance ritual combining your lotions, oils, and perfumes.</p>
                 
-                <div class="flex flex-wrap justify-center gap-3 pt-4">
-                    <button onclick="generateLayerRecipe('Sweet & Cozy')" class="px-5 py-2.5 rounded-xl bg-rose-900 text-white font-medium text-xs hover:bg-rose-800 transition-all shadow-sm">🧁 Sweet & Cozy</button>
-                    <button onclick="generateLayerRecipe('Fresh & Fruity')" class="px-5 py-2.5 rounded-xl bg-amber-800 text-white font-medium text-xs hover:bg-amber-700 transition-all shadow-sm">🍑 Fresh & Fruity</button>
-                    <button onclick="generateLayerRecipe('Sensual Musk')" class="px-5 py-2.5 rounded-xl bg-purple-900 text-white font-medium text-xs hover:bg-purple-800 transition-all shadow-sm">✨ Sensual Musk</button>
+                <div class="flex gap-1 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+                    <button onclick="setCategory('All')" id="cat-All" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-pink-600 text-white whitespace-nowrap shadow-sm">All</button>
+                    <button onclick="setCategory('Perfume')" id="cat-Perfume" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 whitespace-nowrap hover:bg-slate-50">Perfumes</button>
+                    <button onclick="setCategory('Lotion')" id="cat-Lotion" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 whitespace-nowrap hover:bg-slate-50">Lotions</button>
+                    <button onclick="setCategory('Oil')" id="cat-Oil" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 whitespace-nowrap hover:bg-slate-50">Oils</button>
+                    <button onclick="setCategory('Mist')" id="cat-Mist" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 whitespace-nowrap hover:bg-slate-50">Mists</button>
                 </div>
             </div>
 
-            <div id="wizard-result" class="hidden max-w-xl mx-auto glass-card rounded-2xl p-6 shadow-sm space-y-4">
-                <div class="flex justify-between items-center border-b border-stone-200/60 pb-3">
-                    <h3 id="combo-theme" class="font-serif-title font-bold text-lg text-stone-900"></h3>
-                    <button onclick="generateLayerRecipe('Sweet & Cozy')" class="text-xs text-rose-800 font-semibold hover:underline">Shuffle Combo</button>
-                </div>
-                <div id="combo-items-container" class="space-y-3">
-                    <!-- Dynamic Recipe Items -->
-                </div>
-            </div>
-        </section>
+            <div id="itemGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4"></div>
+        </div>
 
-        <!-- SECTION 3: SAVED COMBOS / FAVORITES -->
-        <section id="view-favorites" class="hidden space-y-6">
-            <div class="glass-card rounded-2xl p-6 sm:p-8">
-                <h2 class="font-serif-title text-xl font-bold text-stone-900 mb-4">Your Favorite Items</h2>
-                <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    <!-- Favorites Injected Here -->
+        <!-- LAYERING WIZARD TAB VIEW -->
+        <div id="view-wizard" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm text-center space-y-4">
+                <h2 class="script-title text-2xl font-bold text-pink-700">Custom Scent Layering Architect</h2>
+                <p class="text-sm text-slate-600 max-w-md mx-auto">Generate a complete ritual sequence featuring a <strong>Lotion</strong>, an <strong>Oil</strong>, <strong>Two Perfumes</strong>, and an optional <strong>Mist</strong>.</p>
+                
+                <!-- Mood Selector Pills -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Select Vibe / Mood</label>
+                    <div class="flex flex-wrap justify-center gap-1.5" id="moodSelector">
+                        <button onclick="setWizardMood('Sweet & Sugary')" class="mood-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-pink-600 text-white shadow-sm">🧁 Sweet & Sugary</button>
+                        <button onclick="setWizardMood('Fresh & Fruity')" class="mood-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">🍑 Fresh & Fruity</button>
+                        <button onclick="setWizardMood('Warm & Cozy')" class="mood-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">🪵 Warm & Cozy</button>
+                        <button onclick="setWizardMood('Clean & Musky')" class="mood-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">☁️ Clean & Musky</button>
+                        <button onclick="setWizardMood('Bold & Date Night')" class="mood-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">🌹 Bold & Date Night</button>
+                        <button onclick="setWizardMood('Tropical & Juicy')" class="mood-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">🍍 Tropical & Juicy</button>
+                    </div>
+                </div>
+
+                <!-- Custom Vibe Text Input -->
+                <div class="max-w-md mx-auto pt-2">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Or Type Custom Scent / Note</label>
+                    <input type="text" id="customVibeInput" placeholder="e.g. Lychee, Vanilla, Marshmallow..." class="w-full px-4 py-2 text-sm bg-slate-50 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400">
+                </div>
+
+                <div class="pt-2">
+                    <button onclick="generateWizardPairing()" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold rounded-xl shadow-md hover:opacity-95 transition-all text-sm">
+                        ✨ Generate Custom Layering Ritual
+                    </button>
                 </div>
             </div>
-        </section>
+
+            <!-- Wizard Result Cards Container -->
+            <div id="wizardResult" class="space-y-3">
+                <div class="bg-white p-8 rounded-2xl border border-pink-100 text-center text-slate-400 text-sm">
+                    Select your mood or type a note above, then click generate to create your ritual!
+                </div>
+            </div>
+        </div>
+
+        <!-- FAVORITES TAB VIEW -->
+        <div id="view-favorites" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800">Your Favorite Fragrances</h2>
+            </div>
+            <div id="favoritesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4"></div>
+        </div>
 
     </main>
 
-    <!-- Add Fragrance Modal -->
-    <div id="modal-add" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="glass-card w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 relative border border-white">
-            <div class="flex justify-between items-center">
-                <h3 class="font-serif-title text-xl font-bold text-stone-900">Add New Fragrance</h3>
-                <button onclick="closeAddModal()" class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-600 hover:bg-stone-200">✕</button>
+    <!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-pink-100 flex flex-col max-h-[90vh]">
+            <div class="relative h-64 bg-slate-100">
+                <img id="modalImg" src="" alt="Fragrance Photo" class="w-full h-full object-cover">
+                <button onclick="closeModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center font-bold text-sm">✕</button>
             </div>
-            <form onsubmit="handleAddFragrance(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-500 mb-1">Name</label>
-                    <input type="text" id="add-name" required class="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/30">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
+            <div class="p-6 overflow-y-auto space-y-4">
+                <div class="flex justify-between items-start">
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-500 mb-1">Brand / House</label>
-                        <input type="text" id="add-brand" required class="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/30">
+                        <span id="modalCategory" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-100 text-pink-700">Perfume</span>
+                        <h3 id="modalName" class="text-xl font-bold text-slate-800 mt-1"></h3>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-500 mb-1">Type</label>
-                        <select id="add-type" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/30">
-                            <option value="Perfume">Perfume</option>
-                            <option value="Mist">Mist</option>
-                            <option value="Lotion">Lotion</option>
-                            <option value="Oil">Oil</option>
-                        </select>
-                    </div>
+                    <div id="modalRating" class="text-sm font-semibold bg-amber-50 text-amber-700 px-2.5 py-1 rounded-xl border border-amber-200"></div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-500 mb-1">Notes (comma separated)</label>
-                    <input type="text" id="add-notes" placeholder="Vanilla, Peach, Musk" required class="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/30">
+                <div class="pt-4 border-t border-slate-100 flex gap-2">
+                    <button id="modalFavBtn" onclick="toggleModalFavorite()" class="flex-1 py-2.5 border border-pink-300 text-pink-600 rounded-xl font-medium text-sm hover:bg-pink-50 transition-colors">
+                        🤍 Favorite
+                    </button>
+                    <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-800 text-white rounded-xl font-medium text-sm hover:bg-slate-900 transition-colors">
+                        Close
+                    </button>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-500 mb-1">Photo URL</label>
-                    <input type="url" id="add-image" placeholder="https://..." class="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-white/80 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/30">
-                </div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-rose-900 text-white font-medium text-sm hover:bg-rose-800 transition-all shadow-md">Save to Closet</button>
-            </form>
+            </div>
         </div>
     </div>
 
-    <!-- Application Script -->
+    <!-- Add Item Modal -->
+    <div id="addModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl p-6 space-y-4">
+            <h3 class="text-lg font-bold text-slate-800">Add New Fragrance</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">Name</label>
+                    <input type="text" id="addName" class="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">Category</label>
+                    <select id="addCategory" class="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        <option value="Perfume">Perfume</option>
+                        <option value="Lotion">Lotion</option>
+                        <option value="Oil">Oil</option>
+                        <option value="Mist">Mist</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">Rating (0 - 5)</label>
+                    <input type="number" id="addRating" step="0.5" min="0" max="5" value="4" class="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">Photo URL</label>
+                    <input type="text" id="addImg" placeholder="https://..." class="w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-400">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeAddModal()" class="flex-1 py-2.5 border rounded-xl text-sm font-medium">Cancel</button>
+                <button onclick="saveNewItem()" class="flex-1 py-2.5 bg-pink-600 text-white rounded-xl text-sm font-medium shadow-md">Add Item</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Master Collection Dataset (102 Items with exact user ratings & photo URLs)
-        let collection = [
-            { id: 1, name: "MFK Baccarat Rouge 540 (Eau de Parfum)", brand: "Maison Francis Kurkdjian", type: "Perfume", notes: ["Amber", "Jasmine", "Musk"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsBwkNUN0ACZ8ZL3nJjWKbqCKSm54Qb_EU_R4jMZ8gqA&s", favorite: true },
-            { id: 2, name: "MFK Oud Satin Mood", brand: "Maison Francis Kurkdjian", type: "Perfume", notes: ["Rose", "Vanilla", "Oud"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTczKajywcjbgNPw6RUGLJYDpX7iRt0mW1Kz3lTBhcYJg&s", favorite: false },
-            { id: 3, name: "Zara Dark Romance", brand: "Zara", type: "Perfume", notes: ["Vanilla", "Jasmine", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwKbLO-Gowjy0OQA97whdxbadpCt6bHrC_PeveU-byA&s=10", favorite: false },
-            { id: 4, name: "Zara Coconut Jasmine Sugar", brand: "Zara", type: "Perfume", notes: ["Coconut", "Jasmine", "Vanilla"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMDgXHvEtJh1r75K-Gt8VMsFYOhv-cX5TNZe5_53GuaQ&s=10", favorite: false },
-            { id: 5, name: "Zara Starlight Vanilla", brand: "Zara", type: "Perfume", notes: ["Vanilla", "Amber", "Musk"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsTDBjpOJimkkR2YCpWrulGVb1mFxY8L93KpHjQkhUjg&s=10", favorite: false },
-            { id: 6, name: "Zara Indulgent Vanilla", brand: "Zara", type: "Perfume", notes: ["Vanilla", "Sandlewood", "Musk"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwithamYoLDU6v1uFbF7iYR9ka9qU-eNOAGD4JaAt8PA&s=10", favorite: false },
-            { id: 7, name: "Zara Red Temptation Sandalwood", brand: "Zara", type: "Perfume", notes: ["Sandlewood", "Amber", "Musk"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-7KqeJdbVkiRzh1Xk9LtONx11onx615d9tB_onYQCSQ&s=10", favorite: false },
-            { id: 8, name: "Zara Immortal Vanilla", brand: "Zara", type: "Perfume", notes: ["Vanilla", "Bergamot", "Amber"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSanlmlEqSUFufO6srIIx0C0fZJO9-E3iefal__vkX9SQ&s=10", favorite: false },
-            { id: 9, name: "Zara Golden Decade", brand: "Zara", type: "Perfume", notes: ["Jasmine", "Vanilla", "Mandarin"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1B_CYxEd1Q_l7HKfyigxAGnerKOzZA8y1yZswGioAhQ&s=10", favorite: false },
-            { id: 10, name: "Lattafa Ana Abiyedh Coral", brand: "Lattafa", type: "Perfume", notes: ["Peach", "Vanilla", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOWpnfZvbAd50Jrr7R2exdqDIopeUxMvPR007_RPJIWA&s=10", favorite: false },
-            { id: 11, name: "Lattafa Ana Abiyedh Rouge", brand: "Lattafa", type: "Perfume", notes: ["Amber", "Saffron", "Musk"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTksfhexme6GrZlRjX3pAGYMCDf9-6ciaFq4oEWVMLVBw&s=10", favorite: true },
-            { id: 12, name: "VS Bare Sueded Vanilla", brand: "Victoria's Secret", type: "Perfume", notes: ["Vanilla", "Musk", "Sandlewood"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4IG070oNSQbcYo2-KxzEIU9d11XbT2CfuLpdgW_7_PA&s=10", favorite: false },
-            { id: 13, name: "VS Bare Rose", brand: "Victoria's Secret", type: "Perfume", notes: ["Rose", "Musk", "Pear"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRikBXj8PzBbT_HZIt-rB37VwRMh2LQlt8PakDEWySO2g&s=10", favorite: false },
-            { id: 14, name: "VS Bare Nectar", brand: "Victoria's Secret", type: "Perfume", notes: ["Peach", "Vanilla", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAP14L06mfQM-PWtjUYkAVLXauiyNhYL32KYo_wEKp3A&s", favorite: false },
-            { id: 15, name: "VS Bare", brand: "Victoria's Secret", type: "Perfume", notes: ["Musk", "Sandlewood", "Mandarin"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBwFEzhzA0mo2S3_rvVVcVv74WzFOo62VPcMVFKp7n3w&s=10", favorite: false },
-            { id: 16, name: "Kayali Freedom Musk Santal | 34", brand: "Kayali", type: "Perfume", notes: ["Musk", "Sandlewood", "Vanilla"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk0eQ_FZKhFmZrQnWHzTfo3Or58Fzh5b0XV0Fl68UGqQ&s=10", favorite: false },
-            { id: 17, name: "Kayali Vanilla Candy Rock Sugar | 42", brand: "Kayali", type: "Perfume", notes: ["Vanilla", "Pear", "Bubblegum"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eqwDfN_Fmytz5RXB3quZOWRLzwG2mWWiw87bjEPfzA&s", favorite: false },
-            { id: 18, name: "Kayali Boujee Marshmallow | 81", brand: "Kayali", type: "Perfume", notes: ["Vanilla", "Strawberry", "Musk"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjXhi4orqtE2jr1jiyBOfdsBCJfxJWcnFIpJ3MSq8ckA&s=10", favorite: false },
-            { id: 19, name: "Kayali The Wedding Silk Santal | 36", brand: "Kayali", type: "Perfume", notes: ["Champagne", "Praline", "Musk"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYnW2pHCQYB3re3psU6C5AErV8n0-xq7t4j4T8A0V8mg&s=10", favorite: true },
-            { id: 20, name: "Kayali Eden Sparkling Lychee | 39", brand: "Kayali", type: "Perfume", notes: ["Lychee", "Apple", "Rose"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAyXXi7CtuMyyLsUKVj_FKOi8wbAvn7gMaoS2SBAO_dA&s=10", favorite: true },
-            { id: 21, name: "Kayali Eden Sweet Peach | 35", brand: "Kayali", type: "Perfume", notes: ["Peach", "Jasmine", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCRXc3gFKxpBpheMo_C7oocKAanRnIcq9HlQb8iobCYQ&s=10", favorite: true },
-            { id: 22, name: "Kayali Eden Plush Pear | 23", brand: "Kayali", type: "Perfume", notes: ["Pear", "Musk", "Jasmine"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ZHXa_dVzPJOQTBQELGnE7CAAphBx0_AO375osGVvrw&s", favorite: false },
-            { id: 23, name: "Kayali Eden Juicy Apple | 01", brand: "Kayali", type: "Perfume", notes: ["Apple", "Berries", "Jasmine"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSylN9PX3fb-wRnDvs5VkDWXJu2W45llJJnzUq87PMPfQ&s=10", favorite: false },
-            { id: 24, name: "Mamlakat Al Oud Cotton Abyed", brand: "Mamlakat Al Oud", type: "Perfume", notes: ["Musk", "Cotton", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCO99ZT2LrByvu59p1Lm1UalISv6ZFLptiL7k1CiOInQ&s", favorite: false },
-            { id: 25, name: "Armaf Club de Nuit Maleka", brand: "Armaf", type: "Perfume", notes: ["Rose", "Vanilla", "Amber"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLZ3i125fyXJ3JOt8ke2CC19CYGsIOASmv1wmkPJRRdw&s=10", favorite: false },
-            { id: 26, name: "Huda Easy Bake Intense", brand: "Huda Beauty", type: "Perfume", notes: ["Vanilla", "Pear", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXwHUIRKa9z7kamkUfyZIptIvqAdlAyaJR1_ZrDox-Wg&s=10", favorite: false },
-            { id: 27, name: "Lattafa Opulent Dubai", brand: "Lattafa", type: "Perfume", notes: ["Oud", "Amber", "Rose"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt8jDiPSIcs4tJwk-dXmtbRSY31EEuSEuMZfyTC_wjnw&s=10", favorite: false },
-            { id: 28, name: "Emir Juicy Melange", brand: "Paris Corner", type: "Perfume", notes: ["Peach", "Lychee", "Berries"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEuxKD5yKSVrcDyFM0iB_Yvn0-BXH9pweYQ9L8kPLi5Q&s=10", favorite: false },
-            { id: 29, name: "Paris Corner Khair Confection", brand: "Paris Corner", type: "Perfume", notes: ["Vanilla", "Praline", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkKnnr85rCMjit_Yv3RvNp8BIVmOsvyx3CSVIsoUbNtg&s=10", favorite: false },
-            { id: 30, name: "Paris Corner Khair Peach Delulu", brand: "Paris Corner", type: "Perfume", notes: ["Peach", "Vanilla", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSd0pQDUT1uerk63F0ET5H9pi02JLiGMg851rR80tyNg&s", favorite: false },
-            { id: 31, name: "Emir Super Crush", brand: "Paris Corner", type: "Perfume", notes: ["Vanilla", "Pear", "Amber"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA6tKnq2zaICxfpb6tehwMvuGXMbMuKAVJTsli5igjIg&s=10", favorite: false },
-            { id: 32, name: "Arabiyat Prestige Bahiya Garnet", brand: "Arabiyat", type: "Perfume", notes: ["Berries", "Rose", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2Iv_dYi_oraxqHVUrAudz-OOtqYse1Rh_i6BQucrNIw&s=10", favorite: false },
-            { id: 33, name: "Amaran Viva la Vanilla", brand: "Amaran", type: "Perfume", notes: ["Vanilla", "Sandlewood", "Amber"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfzxhaO5uNKr0_5nopIbRMWhYpf70LvdByHcoZtDAFwA&s", favorite: false },
-            { id: 34, name: "Arabiyat Prestige Mutheer", brand: "Arabiyat", type: "Perfume", notes: ["Jasmine", "Musk", "Vanilla"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJhihb8fqdn7NXo60D1u_3gORx4hfevlq4zLiKBS70AQ&s=10", favorite: false },
-            { id: 35, name: "Le Falcone Bonita", brand: "Le Falcone", type: "Perfume", notes: ["Peach", "Vanilla", "Jasmine"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR155Ajxjc3HtxjED0jMUMbquDCPhVja8ayrO9qAV9GAg&s=10", favorite: false },
-            { id: 36, name: "Jean Paul Gaultier Scandal", brand: "Jean Paul Gaultier", type: "Perfume", notes: ["Honey", "Gardenia", "Praline"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzb2ps3Lwy-fbSZoKRCMzcxNzbfSYmBNouyWoM2KzLlw&s=10", favorite: true },
-            { id: 37, name: "Lancome La Vie est Belle", brand: "Lancome", type: "Perfume", notes: ["Iris", "Praline", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Vnk2V2eVlqCL3s3nVIwZb_jemGPpHwQzvfjrHqiDZA&s", favorite: true },
-            { id: 38, name: "Dior Miss Dior", brand: "Dior", type: "Perfume", notes: ["Rose", "Patchouli", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHRMqsPF7D4L1FiHaa1LygyNuAXS7KA1gISwkNbZIKMQ&s=10", favorite: false },
-            { id: 39, name: "Dior Miss Dior Blooming Bouquet", brand: "Dior", type: "Perfume", notes: ["Peony", "Rose", "Bergamot"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSowxXK9AVANaEC72AOMOK86hkl_1IhweqnKMRyrNgZMQ&s=10", favorite: false },
-            { id: 40, name: "Chloé L'Eau de Parfum Intense", brand: "Chloé", type: "Perfume", notes: ["Rose", "Vanilla", "Sandlewood"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbcxqqXRpP8EomEHHwke-0B_4HhTl5HOwjZxeO7RcnEg&s=10", favorite: true },
-            { id: 41, name: "Miu Miu Miutine Intense", brand: "Miu Miu", type: "Perfume", notes: ["Jasmine", "Rose", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY8_e4nfdjhfCAU-oxzo388PtktPM9vmSOoBBb6sNRyg&s=10", favorite: false },
-            { id: 42, name: "Arabiyat Prestige Nyla Sherbet", brand: "Arabiyat", type: "Perfume", notes: ["Lychee", "Berries", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR53ZdLIxnURXexnRz37AbUw_-vwahqUu7ashiFIki0YA&s=10", favorite: false },
-            { id: 43, name: "Narciso Rodriguez For Her Pure Musc", brand: "Narciso Rodriguez", type: "Perfume", notes: ["Musk", "Cashmeran", "Jasmine"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI1yXojd-UmoN7PMsUGRU9kMncbDkRt-xq7Av0QVFcHg&s=10", favorite: true },
-            { id: 44, name: "Narciso Rodriguez For Her Intense", brand: "Narciso Rodriguez", type: "Perfume", notes: ["Musk", "Rose", "Amber"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuJiAFIFCAsK4AEohDPu-BxXEygXvYlyMQaL2vBcNySg&s=10", favorite: true },
-            { id: 45, name: "Valentino Donna Coral Fantasy", brand: "Valentino", type: "Perfume", notes: ["Peach", "Rose", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwU2PGyqQ9DRd0tQD9UX9tuHfm9DrU39-RIpw3Cq-lHA&s", favorite: true },
-            { id: 46, name: "Valentino Donna Pink PP", brand: "Valentino", type: "Perfume", notes: ["Orange Blossom", "Vanilla", "Musk"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy97XjzrF6GqJiu3-Nvd7v02N7HEoWr1F9XVz-rftknw&s=10", favorite: false },
-            { id: 47, name: "Zimaya Fatima Velvet Love", brand: "Zimaya", type: "Perfume", notes: ["Peach", "Vanilla", "Amber"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ54tuo6RnRT-BUNRkMxph90c0cjPB4PwpU4SDhYgzqvQ&s=10", favorite: false },
-            { id: 48, name: "MCM Crush", brand: "MCM", type: "Perfume", notes: ["Apricot", "Amber", "Vanilla"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlrhdcoyTEDgyXo-mcybtvEUrTS2YA5snObyE-LMRlOA&s=10", favorite: false },
-            { id: 49, name: "Lattafa Mayar", brand: "Lattafa", type: "Perfume", notes: ["Lychee", "Raspberry", "Vanilla"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqAvbSjX_dG00h4edzViCCngYmFCEeFqbg_LdTc0HLVw&s=10", favorite: false },
-            { id: 50, name: "Solinotes Litchi", brand: "Solinotes", type: "Perfume", notes: ["Lychee", "Rose", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP8O10w1vQDlIGyljJoyNP_4ZDIBbGKbNsOWOpiuqt_w&s=10", favorite: false },
-            { id: 51, name: "Solinotes Musc", brand: "Solinotes", type: "Perfume", notes: ["Musk", "Bergamot", "Cedar"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHYRC8U0yHRibXrpjVKR_IK6iPoNV0kyZ_Mkla7lGJiw&s", favorite: false },
-            { id: 52, name: "The 7 Virtues Lotus Pear", brand: "The 7 Virtues", type: "Perfume", notes: ["Pear", "Lotus", "Peach"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBulWCLo3zgboG4oGQtm6m2AyfyHOgUcz7YZBNaSEKQ&s=10", favorite: false },
-            { id: 53, name: "The 7 Virtues Candied Lychee", brand: "The 7 Virtues", type: "Perfume", notes: ["Lychee", "Vanilla", "Rose"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW_u9thdqCQwwtU0hgnuOMWiWyOMR47bTMaYqnfnRrbg&s=10", favorite: false },
-            { id: 54, name: "The 7 Virtues Vanilla Woods", brand: "The 7 Virtues", type: "Perfume", notes: ["Vanilla", "Amber", "Pear"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREtGOK8ymPYjAGOh5dtMtem35Akbw5YElM7JDLXo0R9A&s=10", favorite: false },
-            { id: 55, name: "The 7 Virtues Clementine Dream", brand: "The 7 Virtues", type: "Perfume", notes: ["Bergamot", "Orange", "Musk"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJNBnKO8uB6z69nw6KkmWcL8S36MrVRN1ftuDIDXlrg&s=10", favorite: false },
-            { id: 56, name: "Rayhaan Cedrus Blanc", brand: "Rayhaan", type: "Perfume", notes: ["Cedar", "Musk", "Vanilla"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvfNB1PZtPiLneO-Q88oTPtJ3MHdehzpnvmxRtMoq9bQ&s", favorite: false },
-            { id: 57, name: "Rayhaan Nava Sol", brand: "Rayhaan", type: "Perfume", notes: ["Bergamot", "Peach", "Musk"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9ZT6PTF2XxRbTK_8V7pRJcQ1e0ByXOm_ZHkuCfsgCww&s=10", favorite: false },
-            { id: 58, name: "Moschino Toy 2", brand: "Moschino", type: "Perfume", notes: ["Mandarin", "Peony", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgII6lC3Bv4lxUfnfvaZv6L54E1-XFFS_c356tYHOQrA&s=10", favorite: false },
-            { id: 59, name: "Arabiyat Prestige Blueberry Musk", brand: "Arabiyat", type: "Perfume", notes: ["Berries", "Musk", "Vanilla"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgejkURhIPxRB3rnzU-4sqIoUiknb7ZuvTJYgB105IKA&s=10", favorite: false },
-            { id: 60, name: "Arabiyat Prestige Lychee Musk", brand: "Arabiyat", type: "Perfume", notes: ["Lychee", "Musk", "Rose"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLEZ8c3Z_7KtLCNO1GPAyzmfbhwSvqK_fVbZUt0GMfPw&s=10", favorite: true },
-            { id: 61, name: "French Avenue Vulcan Baie", brand: "French Avenue", type: "Perfume", notes: ["Amber", "Vanilla", "Musk"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSInXRBwJth6rHkAdR0v26EwE3Dk33fpR6o1Xr9jz3V-Q&s=10", favorite: false },
-            { id: 62, name: "Lake and Skye 11 11 Lychee", brand: "Lake & Skye", type: "Perfume", notes: ["Lychee", "Musk", "Amber"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLURDdJkfBiyoJqmFRkisgfB6hkjDZSfMgdm1e3PYyLw&s", favorite: false },
-            { id: 63, name: "Lake and Skye 11 11", brand: "Lake & Skye", type: "Perfume", notes: ["Musk", "Amber", "Jasmine"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc-WG3VmNJOLhsaeUaR6ivP9UQ3SYgrLwUCaOFKOuMbw&s=10", favorite: true },
-            { id: 64, name: "Lake and Skye 11 11 Vanilla", brand: "Lake & Skye", type: "Perfume", notes: ["Vanilla", "Musk", "Amber"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhmMYK_cLKzA8YDu4XvJkiBzs6PL8HoQSnNVujKrpG4g&s=10", favorite: false },
-            { id: 65, name: "Lake and Skye 11 11 Azure", brand: "Lake & Skye", type: "Perfume", notes: ["Bergamot", "Musk", "Amber"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO0121BoFJkiW2FkPIG8RosyIF9J6MSzYtsnKRMjwUnA&s=10", favorite: false },
-            { id: 66, name: "Room 1015 Love-o-Matic", brand: "Room 1015", type: "Perfume", notes: ["Rose", "Patchouli", "Musk"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVpLyNfpnrr7N8nEveDHnu3aTuDDGowiervQKIi5PrsQ&s", favorite: false },
-            { id: 67, name: "Catherine Malandrino Transcendent", brand: "Catherine Malandrino", type: "Perfume", notes: ["Vanilla", "Jasmine", "Pear"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1KNGO3zxNi-drY7rvijUfetffnA-sihMOcCuRb85yvQ&s=10", favorite: false },
-            { id: 68, name: "Catherine Malandrino Fleur Sombre", brand: "Catherine Malandrino", type: "Perfume", notes: ["Rose", "Amber", "Musk"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQs_dMFUCM2OhLcfVRjs4u4QAOGE49qLEKZy_JrYrYNg&s=10", favorite: false },
-            { id: 69, name: "Cuba VIP Cuba for Women", brand: "Cuba", type: "Perfume", notes: ["Peony", "Jasmine", "Musk"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9gr8gxHtv3opVm6ByfLAXkzy-kVYFJSep5YoEriAhjA&s=10", favorite: false },
-            { id: 70, name: "Cuba Beauty", brand: "Cuba", type: "Perfume", notes: ["Vanilla", "Rose", "Amber"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxmLeGkLe9a_GVf37JWvEcwjtD9ZGjgEOZCMo2ol8mQw&s", favorite: false },
-            { id: 71, name: "Paco Rabanne Fame in Love", brand: "Paco Rabanne", type: "Perfume", notes: ["Mango", "Jasmine", "Vanilla"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-FppPTcFEq3EDvpnrm0DXKe0tx5pbxEG8sonpYTApgQ&s=10", favorite: false },
-            { id: 72, name: "Paco Rabanne Fame", brand: "Paco Rabanne", type: "Perfume", notes: ["Mango", "Jasmin", "Sandalwood"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrqSyMGuZyE9wRyFrsMRERqDs-t6ja9d_3hcb9EOU0zQ&s=10", favorite: false },
-            { id: 73, name: "Khadlaj Panache Angel Dust", brand: "Khadlaj", type: "Perfume", notes: ["Musk", "Vanilla", "Rose"], rating: "1.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAUZhYevsqn25vTX3jGyKB7mL4AxWWfZNnBx5w52fi8Q&s", favorite: false },
-            { id: 74, name: "Ariana Grande Cloud 2.0 Intense", brand: "Ariana Grande", type: "Perfume", notes: ["Lavender", "Praline", "Vanilla"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHD8oXJ41tq8A0bp9uIkZ43-uRm0XBR73J3Pp2MdeYpw&s=10", favorite: false },
-            { id: 75, name: "Ariana Grande Mod Vanilla", brand: "Ariana Grande", type: "Perfume", notes: ["Vanilla", "Praline", "Musk"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRZG7ygs_kUQi6pdbfKnx_4JOKaLYlx7Nd66LOcufBRw&s=10", favorite: false },
-            { id: 76, name: "Kensie Buttercup Babe", brand: "Kensie", type: "Perfume", notes: ["Peach", "Vanilla", "Musk"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh23UIJohDJmyvy4xpyDq2Jgs4a73aM64V4ia0WNORRA&s", favorite: false },
-            { id: 77, name: "Nicole Miller Nectar de Pêche", brand: "Nicole Miller", type: "Perfume", notes: ["Peach", "Vanilla", "Jasmine"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZFqm_LDlA4cYnHYGOMjWlGKuhwWSGuO6jaJTLoD5RAw&s", favorite: false },
-            { id: 78, name: "Versace Eros pour Femme", brand: "Versace", type: "Perfume", notes: ["Lemon", "Jasmine", "Musk"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzl2l8809ztg3aNf6uEFzlG8UdogiJ_vuyAU2exCh9Kw&s=10", favorite: false },
-            { id: 79, name: "Paris Hilton Can Can", brand: "Paris Hilton", type: "Perfume", notes: ["Nectarine", "Orchid", "Amber"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWUqYp2CdJ8l4UomNZ5z0c5jR6cZekIE9iK6j2qdCfoQ&s=10", favorite: false },
-            { id: 80, name: "Mind Games Queening", brand: "Mind Games", type: "Perfume", notes: ["Vanilla", "Rum", "Musk"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRunf99qOyWzR3jcIfl_VG_iGV7dnQ8NdqKF-9AU9Bd0g&s=10", favorite: false },
-            { id: 81, name: "Ex Nihilo Fleur Narcotique", brand: "Ex Nihilo", type: "Perfume", notes: ["Lychee", "Peony", "Musk"], rating: "0.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPiJ978aswpLdZJq1k2T41FhQFIA-DVJxWnPqoofWm1w&s=10", favorite: false },
-            { id: 82, name: "Creed Wind Flowers", brand: "Creed", type: "Perfume", notes: ["Peach", "Jasmine", "Rose"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN9cDGIO9aURQ3KxtSwAE7W_j2lRVhXU8QzA91ikxGNA&s=10", favorite: false },
-            { id: 83, name: "Beyoncé Cé Noir", brand: "Beyoncé", type: "Perfume", notes: ["Rose", "Honey", "Amber"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf__p29jLq0IF_D6O77pHeEGrhbW6K2HJbYmTrLFQdmQ&s=10", favorite: false },
-            { id: 84, name: "Maison Alhambra La Vivacité", brand: "Maison Alhambra", type: "Perfume", notes: ["Lychee", "Vanilla", "Musk"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmI2qn152b0UlLWrDZe2A8ZOkM5vT_eWgoj7JKmUhYMQ&s=10", favorite: true },
-            { id: 85, name: "Brittany Spears Hidden Fantasy", brand: "Britney Spears", type: "Perfume", notes: ["Orange", "Vanilla", "Clove"], rating: "2.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJZ7PA4B0L32VfV9ciCQEjORFPv8OU196L18vST4qx1Q&s", favorite: false },
-            { id: 86, name: "Casamorati Italica", brand: "Xerjoff", type: "Perfume", notes: ["Almond", "Vanilla", "Toffee"], rating: "2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6o26psmxXTmzzDaQ5vyBQd2PjyPmb3wLLqgLwYeGqFA&s", favorite: false },
-            { id: 87, name: "Vera Wang Lovestruck", brand: "Vera Wang", type: "Perfume", notes: ["Guava", "Lotus", "Musk"], rating: "1.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8JOYcetl7ax9L0hxkGqEM8llb84ur3jNeM6L098flg&s=10", favorite: false },
+        let items = [
+            { id: 1, name: "MFK Baccarat Rouge 540 (Eau de Parfum)", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsBwkNUN0ACZ8ZL3nJjWKbqCKSm54Qb_EU_R4jMZ8gqA&s", fav: false },
+            { id: 2, name: "MFK Oud Satin Mood", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTczKajywcjbgNPw6RUGLJYDpX7iRt0mW1Kz3lTBhcYJg&s", fav: false },
+            { id: 3, name: "Zara Dark Romance", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwKbLO-Gowjy0OQA97whdxbadpCt6bHrC_PeveU-byA&s=10", fav: false },
+            { id: 4, name: "Zara Coconut Jasmine Sugar", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMDgXHvEtJh1r75K-Gt8VMsFYOhv-cX5TNZe5_53GuaQ&s=10", fav: false },
+            { id: 5, name: "Zara Starlight Vanilla", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsTDBjpOJimkkR2YCpWrulGVb1mFxY8L93KpHjQkhUjg&s=10", fav: false },
+            { id: 6, name: "Zara Indulgent Vanilla", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwithamYoLDU6v1uFbF7iYR9ka9qU-eNOAGD4JaAt8PA&s=10", fav: false },
+            { id: 7, name: "Zara Red Temptation Sandalwood", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-7KqeJdbVkiRzh1Xk9LtONx11onx615d9tB_onYQCSQ&s=10", fav: false },
+            { id: 8, name: "Zara Immortal Vanilla", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSanlmlEqSUFufO6srIIx0C0fZJO9-E3iefal__vkX9SQ&s=10", fav: false },
+            { id: 9, name: "Zara Golden Decade", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1B_CYxEd1Q_l7HKfyigxAGnerKOzZA8y1yZswGioAhQ&s=10", fav: false },
+            { id: 10, name: "Lattafa Ana Abiyedh Coral", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOWpnfZvbAd50Jrr7R2exdqDIopeUxMvPR007_RPJIWA&s=10", fav: false },
+            { id: 11, name: "Lattafa Ana Abiyedh Rouge", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTksfhexme6GrZlRjX3pAGYMCDf9-6ciaFq4oEWVMLVBw&s=10", fav: false },
+            { id: 12, name: "VS Bare Sueded Vanilla (Eau de Parfum)", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4IG070oNSQbcYo2-KxzEIU9d11XbT2CfuLpdgW_7_PA&s=10", fav: false },
+            { id: 13, name: "VS Bare Rose (Eau de Parfum)", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRikBXj8PzBbT_HZIt-rB37VwRMh2LQlt8PakDEWySO2g&s=10", fav: false },
+            { id: 14, name: "VS Bare Nectar (Eau de Parfum)", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAP14L06mfQM-PWtjUYkAVLXauiyNhYL32KYo_wEKp3A&s", fav: false },
+            { id: 15, name: "VS Bare", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBwFEzhzA0mo2S3_rvVVcVv74WzFOo62VPcMVFKp7n3w&s=10", fav: false },
+            { id: 16, name: "Kayali Freedom Musk Santal | 34", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk0eQ_FZKhFmZrQnWHzTfo3Or58Fzh5b0XV0Fl68UGqQ&s=10", fav: false },
+            { id: 17, name: "Kayali Vanilla Candy Rock Sugar | 42", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eqwDfN_Fmytz5RXB3quZOWRLzwG2mWWiw87bjEPfzA&s", fav: false },
+            { id: 18, name: "Kayali Boujee Marshmallow | 81", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjXhi4orqtE2jr1jiyBOfdsBCJfxJWcnFIpJ3MSq8ckA&s=10", fav: false },
+            { id: 19, name: "Kayali The Wedding Silk Santal | 36", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYnW2pHCQYB3re3psU6C5AErV8n0-xq7t4j4T8A0V8mg&s=10", fav: false },
+            { id: 20, name: "Kayali Eden Sparkling Lychee | 39", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAyXXi7CtuMyyLsUKVj_FKOi8wbAvn7gMaoS2SBAO_dA&s=10", fav: false },
+            { id: 21, name: "Kayali Eden Sweet Peach | 35", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCRXc3gFKxpBpheMo_C7oocKAanRnIcq9HlQb8iobCYQ&s=10", fav: false },
+            { id: 22, name: "Kayali Eden Plush Pear | 23", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ZHXa_dVzPJOQTBQELGnE7CAAphBx0_AO375osGVvrw&s", fav: false },
+            { id: 23, name: "Kayali Eden Juicy Apple | 01", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSylN9PX3fb-wRnDvs5VkDWXJu2W45llJJnzUq87PMPfQ&s=10", fav: false },
+            { id: 24, name: "Mamlakat Al Oud Cotton Abyed", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCO99ZT2LrByvu59p1Lm1UalISv6ZFLptiL7k1CiOInQ&s", fav: false },
+            { id: 25, name: "Armaf Club de Nuit Maleka", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLZ3i125fyXJ3JOt8ke2CC19CYGsIOASmv1wmkPJRRdw&s=10", fav: false },
+            { id: 26, name: "Huda Easy Bake Intense", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXwHUIRKa9z7kamkUfyZIptIvqAdlAyaJR1_ZrDox-Wg&s=10", fav: false },
+            { id: 27, name: "Lattafa Opulent Dubai", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt8jDiPSIcs4tJwk-dXmtbRSY31EEuSEuMZfyTC_wjnw&s=10", fav: false },
+            { id: 28, name: "Emir Juicy Melange", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEuxKD5yKSVrcDyFM0iB_Yvn0-BXH9pweYQ9L8kPLi5Q&s=10", fav: false },
+            { id: 29, name: "Paris Corner Khair Confection", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkKnnr85rCMjit_Yv3RvNp8BIVmOsvyx3CSVIsoUbNtg&s=10", fav: false },
+            { id: 30, name: "Paris Corner Khair Peach Delulu", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSd0pQDUT1uerk63F0ET5H9pi02JLiGMg851rR80tyNg&s", fav: false },
+            { id: 31, name: "Emir Super Crush", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA6tKnq2zaICxfpb6tehwMvuGXMbMuKAVJTsli5igjIg&s=10", fav: false },
+            { id: 32, name: "Arabiyat Prestige Bahiya Garnet", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2Iv_dYi_oraxqHVUrAudz-OOtqYse1Rh_i6BQucrNIw&s=10", fav: false },
+            { id: 33, name: "Amaran Viva la Vanilla", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfzxhaO5uNKr0_5nopIbRMWhYpf70LvdByHcoZtDAFwA&s", fav: false },
+            { id: 34, name: "Arabiyat Prestige Mutheer", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJhihb8fqdn7NXo60D1u_3gORx4hfevlq4zLiKBS70AQ&s=10", fav: false },
+            { id: 35, name: "Le Falcone Bonita", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR155Ajxjc3HtxjED0jMUMbquDCPhVja8ayrO9qAV9GAg&s=10", fav: false },
+            { id: 36, name: "Jean Paul Gaultier Scandal", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzb2ps3Lwy-fbSZoKRCMzcxNzbfSYmBNouyWoM2KzLlw&s=10", fav: false },
+            { id: 37, name: "Lancome La Vie est Belle", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Vnk2V2eVlqCL3s3nVIwZb_jemGPpHwQzvfjrHqiDZA&s", fav: false },
+            { id: 38, name: "Dior Miss Dior", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHRMqsPF7D4L1FiHaa1LygyNuAXS7KA1gISwkNbZIKMQ&s=10", fav: false },
+            { id: 39, name: "Dior Miss Dior Blooming Bouquet", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSowxXK9AVANaEC72AOMOK86hkl_1IhweqnKMRyrNgZMQ&s=10", fav: false },
+            { id: 40, name: "Chloé L'Eau de Parfum Intense", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbcxqqXRpP8EomEHHwke-0B_4HhTl5HOwjZxeO7RcnEg&s=10", fav: false },
+            { id: 41, name: "Miu Miu Miutine Intense", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY8_e4nfdjhfCAU-oxzo388PtktPM9vmSOoBBb6sNRyg&s=10", fav: false },
+            { id: 42, name: "Arabiyat Prestige Nyla Sherbet", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR53ZdLIxnURXexnRz37AbUw_-vwahqUu7ashiFIki0YA&s=10", fav: false },
+            { id: 43, name: "Narciso Rodriguez For Her Pure Musc", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI1yXojd-UmoN7PMsUGRU9kMncbDkRt-xq7Av0QVFcHg&s=10", fav: false },
+            { id: 44, name: "Narciso Rodriguez For Her (Eau de Parfum Intense)", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuJiAFIFCAsK4AEohDPu-BxXEygXvYlyMQaL2vBcNySg&s=10", fav: false },
+            { id: 45, name: "Valentino Donna Born In Roma Coral Fantasy", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwU2PGyqQ9DRd0tQD9UX9tuHfm9DrU39-RIpw3Cq-lHA&s", fav: false },
+            { id: 46, name: "Valentino Donna Born In Roma Pink PP", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy97XjzrF6GqJiu3-Nvd7v02N7HEoWr1F9XVz-rftknw&s=10", fav: false },
+            { id: 47, name: "Zimaya Fatima Velvet Love", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ54tuo6RnRT-BUNRkMxph90c0cjPB4PwpU4SDhYgzqvQ&s=10", fav: false },
+            { id: 48, name: "MCM Crush", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlrhdcoyTEDgyXo-mcybtvEUrTS2YA5snObyE-LMRlOA&s=10", fav: false },
+            { id: 49, name: "Lattafa Mayar", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqAvbSjX_dG00h4edzViCCngYmFCEeFqbg_LdTc0HLVw&s=10", fav: false },
+            { id: 50, name: "Solinotes Litchi", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP8O10w1vQDlIGyljJoyNP_4ZDIBbGKbNsOWOpiuqt_w&s=10", fav: false },
+            { id: 51, name: "Solinotes Musc", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHYRC8U0yHRibXrpjVKR_IK6iPoNV0kyZ_Mkla7lGJiw&s", fav: false },
+            { id: 52, name: "The 7 Virtues Lotus Pear", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBulWCLo3zgboG4oGQtm6m2AyfyHOgUcz7YZBNaSEKQ&s=10", fav: false },
+            { id: 53, name: "The 7 Virtues Candied Lychee", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW_u9thdqCQwwtU0hgnuOMWiWyOMR47bTMaYqnfnRrbg&s=10", fav: false },
+            { id: 54, name: "The 7 Virtues Vanilla Woods", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREtGOK8ymPYjAGOh5dtMtem35Akbw5YElM7JDLXo0R9A&s=10", fav: false },
+            { id: 55, name: "The 7 Virtues Clementine Dream", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJNBnKO8uB6z69nw6KkmWcL8S36MrVRN1ftuDIDXlrg&s=10", fav: false },
+            { id: 56, name: "Rayhaan Cedrus Blanc", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvfNB1PZtPiLneO-Q88oTPtJ3MHdehzpnvmxRtMoq9bQ&s", fav: false },
+            { id: 57, name: "Rayhaan Nava Sol", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9ZT6PTF2XxRbTK_8V7pRJcQ1e0ByXOm_ZHkuCfsgCww&s=10", fav: false },
+            { id: 58, name: "Moschino Toy 2", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgII6lC3Bv4lxUfnfvaZv6L54E1-XFFS_c356tYHOQrA&s=10", fav: false },
+            { id: 59, name: "Arabiyat Prestige Blueberry Musk", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgejkURhIPxRB3rnzU-4sqIoUiknb7ZuvTJYgB105IKA&s=10", fav: false },
+            { id: 60, name: "Arabiyat Prestige Lychee Musk", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLEZ8c3Z_7KtLCNO1GPAyzmfbhwSvqK_fVbZUt0GMfPw&s=10", fav: false },
+            { id: 61, name: "French Avenue Vulcan Baie", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSInXRBwJth6rHkAdR0v26EwE3Dk33fpR6o1Xr9jz3V-Q&s=10", fav: false },
+            { id: 62, name: "Lake and Skye 11 11 Lychee", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLURDdJkfBiyoJqmFRkisgfB6hkjDZSfMgdm1e3PYyLw&s", fav: false },
+            { id: 63, name: "Lake and Skye 11 11", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc-WG3VmNJOLhsaeUaR6ivP9UQ3SYgrLwUCaOFKOuMbw&s=10", fav: false },
+            { id: 64, name: "Lake and Skye 11 11 Vanilla", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhmMYK_cLKzA8YDu4XvJkiBzs6PL8HoQSnNVujKrpG4g&s=10", fav: false },
+            { id: 65, name: "Lake and Skye 11 11 Azure", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO0121BoFJkiW2FkPIG8RosyIF9J6MSzYtsnKRMjwUnA&s=10", fav: false },
+            { id: 66, name: "Room 1015 Love-o-Matic", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVpLyNfpnrr7N8nEveDHnu3aTuDDGowiervQKIi5PrsQ&s", fav: false },
+            { id: 67, name: "Catherine Malandrino Beauté de la Vie - Transcendent", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1KNGO3zxNi-drY7rvijUfetffnA-sihMOcCuRb85yvQ&s=10", fav: false },
+            { id: 68, name: "Catherine Malandrino Fleur Sombre", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQs_dMFUCM2OhLcfVRjs4u4QAOGE49qLEKZy_JrYrYNg&s=10", fav: false },
+            { id: 69, name: "Cuba VIP Cuba for Women", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9gr8gxHtv3opVm6ByfLAXkzy-kVYFJSep5YoEriAhjA&s=10", fav: false },
+            { id: 70, name: "Cuba Beauty", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxmLeGkLe9a_GVf37JWvEcwjtD9ZGjgEOZCMo2ol8mQw&s", fav: false },
+            { id: 71, name: "Paco Rabanne Fame in Love", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-FppPTcFEq3EDvpnrm0DXKe0tx5pbxEG8sonpYTApgQ&s=10", fav: false },
+            { id: 72, name: "Paco Rabanne Fame", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrqSyMGuZyE9wRyFrsMRERqDs-t6ja9d_3hcb9EOU0zQ&s=10", fav: false },
+            { id: 73, name: "Khadlaj Panache Angel Dust", category: "Perfume", rating: 1, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAUZhYevsqn25vTX3jGyKB7mL4AxWWfZNnBx5w52fi8Q&s", fav: false },
+            { id: 74, name: "Ariana Grande Cloud 2.0 Intense", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHD8oXJ41tq8A0bp9uIkZ43-uRm0XBR73J3Pp2MdeYpw&s=10", fav: false },
+            { id: 75, name: "Ariana Grande Mod Vanilla", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRZG7ygs_kUQi6pdbfKnx_4JOKaLYlx7Nd66LOcufBRw&s=10", fav: false },
+            { id: 76, name: "Kensie Buttercup Babe", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh23UIJohDJmyvy4xpyDq2Jgs4a73aM64V4ia0WNORRA&s", fav: false },
+            { id: 77, name: "Nicole Miller Nectar de Pêche", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZFqm_LDlA4cYnHYGOMjWlGKuhwWSGuO6jaJTLoD5RAw&s", fav: false },
+            { id: 78, name: "Versace Eros pour Femme", category: "Perfume", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzl2l8809ztg3aNf6uEFzlG8UdogiJ_vuyAU2exCh9Kw&s=10", fav: false },
+            { id: 79, name: "Paris Hilton Can Can", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWUqYp2CdJ8l4UomNZ5z0c5jR6cZekIE9iK6j2qdCfoQ&s=10", fav: false },
+            { id: 80, name: "Mind Games Queening", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRunf99qOyWzR3jcIfl_VG_iGV7dnQ8NdqKF-9AU9Bd0g&s=10", fav: false },
+            { id: 81, name: "Ex Nihilo Fleur Narcotique", category: "Perfume", rating: 0.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPiJ978aswpLdZJq1k2T41FhQFIA-DVJxWnPqoofWm1w&s=10", fav: false },
+            { id: 82, name: "Creed Wind Flowers", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN9cDGIO9aURQ3KxtSwAE7W_j2lRVhXU8QzA91ikxGNA&s=10", fav: false },
+            { id: 83, name: "Beyoncé Cé Noir", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf__p29jLq0IF_D6O77pHeEGrhbW6K2HJbYmTrLFQdmQ&s=10", fav: false },
+            { id: 84, name: "Maison Alhambra La Vivacité", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmI2qn152b0UlLWrDZe2A8ZOkM5vT_eWgoj7JKmUhYMQ&s=10", fav: false },
+            { id: 85, name: "Brittany Spears Hidden Fantasy", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJZ7PA4B0L32VfV9ciCQEjORFPv8OU196L18vST4qx1Q&s", fav: false },
+            { id: 86, name: "Casamorati Italica", category: "Perfume", rating: 2, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6o26psmxXTmzzDaQ5vyBQd2PjyPmb3wLLqgLwYeGqFA&s", fav: false },
+            { id: 87, name: "Vera Wang Lovestruck", category: "Perfume", rating: 1, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8JOYcetl7ax9L0hxkGqEM8llb84ur3jNeM6L098flg&s=10", fav: false },
             
             // Lotions
-            { id: 88, name: "EOS Pink Champagne", brand: "EOS", type: "Lotion", notes: ["Champagne", "Berries", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHyfTvtj0As5ytE53cR8HO1ubUDgI37QC0zQpJ28_nA&s=10", favorite: true },
-            { id: 89, name: "EOS Strawberry", brand: "EOS", type: "Lotion", notes: ["Strawberry", "Vanilla", "Cream"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToAuH2_EMqWxvuYioKcvmADSveMy9JJy4Ww6y2e0paww&s", favorite: false },
-            { id: 90, name: "Laline Frozen Pear", brand: "Laline", type: "Lotion", notes: ["Pear", "Bergamot", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiFLUQ1BvI32p4Ha__8Qrh9A-9P5d1eLfcsvJRMsTEdg&s=10", favorite: false },
+            { id: 88, name: "EOS Pink Champagne", category: "Lotion", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHyfTvtj0As5ytE53cR8HO1ubUDgI37QC0zQpJ28_nA&s=10", fav: false },
+            { id: 89, name: "EOS Strawberry", category: "Lotion", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToAuH2_EMqWxvuYioKcvmADSveMy9JJy4Ww6y2e0paww&s", fav: false },
+            { id: 90, name: "Laline Frozen Pear", category: "Lotion", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiFLUQ1BvI32p4Ha__8Qrh9A-9P5d1eLfcsvJRMsTEdg&s=10", fav: false },
             
             // Oils
-            { id: 91, name: "Laline Frozen Pear (Oil)", brand: "Laline", type: "Oil", notes: ["Pear", "Bergamot", "Musk"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYTXUK2Fu1eYF4KZRSmHobjO-HOp1nleT9bU2In5WVw&s", favorite: false },
-            { id: 92, name: "Sand and Fog Marshmallow Skies", brand: "Sand & Fog", type: "Oil", notes: ["Marshmallow", "Vanilla", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzJeencC8ts34hVfsu9MPPYm16M0tMBMZjd1LG9QzTGg&s=10", favorite: true },
-            { id: 93, name: "Sand and Fog Vanilla Musk", brand: "Sand & Fog", type: "Oil", notes: ["Vanilla", "Musk", "Amber"], rating: "3.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf_hDczr8lvbV2__ZJomi9v6hZ46E8kfYq5zIhjO_VOQ&s", favorite: false },
-            { id: 94, name: "(Homemade) Bergamot Apple", brand: "Homemade", type: "Oil", notes: ["Bergamot", "Apple", "Musk"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTL99YnmcnGLJlR4XNvpKZhKeIvDudkyUFyo2oWMkD8Q&s=10", favorite: true },
-            { id: 95, name: "(Homemade) Lychee", brand: "Homemade", type: "Oil", notes: ["Lychee", "Rose", "Vanilla"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuMDLcdgwnoQ7X18z_iKax3Rwg2adbSAd531k3C3CKbw&s=10", favorite: true },
-            { id: 96, name: "(Homemade) Berries", brand: "Homemade", type: "Oil", notes: ["Berries", "Vanilla", "Cream"], rating: "4.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_CdGHa_b0ZqV65nRPI0qI3OmWVLOIsQ-XfL-5u2n9eg&s=10", favorite: false },
-            { id: 97, name: "Sand and Fog Vanilla Sugar", brand: "Sand & Fog", type: "Oil", notes: ["Vanilla", "Sugar", "Musk"], rating: "3.5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvaYYG6i_yREY0hQZJ9hAKP1-j8_7AFBYhFk7fegJ_yw&s=10", favorite: false },
+            { id: 91, name: "Laline Frozen Pear (Oil)", category: "Oil", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYTXUK2Fu1eYF4KZRSmHobjO-HOp1nleT9bU2In5WVw&s", fav: false },
+            { id: 92, name: "Sand and Fog Marshmallow Skies", category: "Oil", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzJeencC8ts34hVfsu9MPPYm16M0tMBMZjd1LG9QzTGg&s=10", fav: false },
+            { id: 93, name: "Sand and Fog Vanilla Musk", category: "Oil", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf_hDczr8lvbV2__ZJomi9v6hZ46E8kfYq5zIhjO_VOQ&s", fav: false },
+            { id: 94, name: "(Homemade) Bergamot Apple", category: "Oil", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTL99YnmcnGLJlR4XNvpKZhKeIvDudkyUFyo2oWMkD8Q&s=10", fav: false },
+            { id: 95, name: "(Homemade) Lychee", category: "Oil", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuMDLcdgwnoQ7X18z_iKax3Rwg2adbSAd531k3C3CKbw&s=10", fav: false },
+            { id: 96, name: "(Homemade) Berries", category: "Oil", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_CdGHa_b0ZqV65nRPI0qI3OmWVLOIsQ-XfL-5u2n9eg&s=10", fav: false },
+            { id: 97, name: "Sand and Fog Vanilla Sugar", category: "Oil", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvaYYG6i_yREY0hQZJ9hAKP1-j8_7AFBYhFk7fegJ_yw&s=10", fav: false },
             
             // Mists
-            { id: 98, name: "Forever 21 Pear Nectar", brand: "Forever 21", type: "Mist", notes: ["Pear", "Vanilla", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeAHwisxEXloDhg713KdIKguz0Z0IduNYkR1LpfLmMKA&s=10", favorite: false },
-            { id: 99, name: "Touchland Peachy Lychee", brand: "Touchland", type: "Mist", notes: ["Peach", "Lychee", "Musk"], rating: "5.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDK-qeRSOc4PaLCbwy8eEclp8Agqk4lkOn1LyEFmurg&s=10", favorite: true },
-            { id: 100, name: "Touchland Power Essence", brand: "Touchland", type: "Mist", notes: ["Bergamot", "Rose", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOBV38JE9aqeIu3YEYGEck6HiqJLS3tyEJsio6JXYomg&s=10", favorite: false },
-            { id: 101, name: "Maison Alhambra La Vivacité Mist", brand: "Maison Alhambra", type: "Mist", notes: ["Lychee", "Vanilla", "Musk"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgCtIYsUwxgFr2v3V3wvmFaC1tELGc4L6eq0rQ6nVVNw&s=10", favorite: false },
-            { id: 102, name: "I love Peachy Passionfruit Spritz", brand: "I Love", type: "Mist", notes: ["Peach", "Passionfruit", "Vanilla"], rating: "4.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl27DAqfaGnOSjncjvQFU_EuSaXSbR5fjXpQmS5x215LPDot0ITTHaT6o&s=10", favorite: false }
+            { id: 98, name: "Forever 21 Pear Nectar", category: "Mist", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeAHwisxEXloDhg713KdIKguz0Z0IduNYkR1LpfLmMKA&s=10", fav: false },
+            { id: 99, name: "Touchland Peachy Lychee", category: "Mist", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLDK-qeRSOc4PaLCbwy8eEclp8Agqk4lkOn1LyEFmurg&s=10", fav: false },
+            { id: 100, name: "Touchland Power Essence", category: "Mist", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOBV38JE9aqeIu3YEYGEck6HiqJLS3tyEJsio6JXYomg&s=10", fav: false },
+            { id: 101, name: "Maison Alhambra La Vivacité Mist", category: "Mist", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgCtIYsUwxgFr2v3V3wvmFaC1tELGc4L6eq0rQ6nVVNw&s=10", fav: false },
+            { id: 102, name: "I love Peachy Passionfruit Spritz", category: "Mist", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl27DAqfaGnOSjncjvQFU_EuSaXSbR5fjXpQmS5x215LPDot0ITTHaT6o&s=10", fav: false }
         ];
 
-        let currentTypeFilter = 'all';
-        let currentNoteFilter = null;
+        let currentCategory = 'All';
+        let activeTab = 'closet';
+        let selectedItem = null;
+        let selectedWizardMood = 'Sweet & Sugary';
 
-        function renderGrid(items) {
-            const grid = document.getElementById('fragrance-grid');
-            if (items.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-16 text-center text-stone-400 text-sm">No items found matching your criteria.</div>`;
+        function renderItems() {
+            const grid = document.getElementById('itemGrid');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = items.filter(item => {
+                const matchesCat = currentCategory === 'All' || item.category === currentCategory;
+                const matchesSearch = item.name.toLowerCase().includes(searchVal);
+                return matchesCat && matchesSearch;
+            });
+
+            document.getElementById('total-count').innerText = items.length;
+            document.getElementById('fav-count').innerText = items.filter(i => i.fav).length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-sm">No fragrances found matching your search.</div>`;
                 return;
             }
 
-            grid.innerHTML = items.map(item => `
-                <div class="glass-card rounded-2xl overflow-hidden hover:shadow-md transition-all group flex flex-col justify-between p-3">
-                    <div class="aspect-square rounded-xl overflow-hidden bg-stone-100 relative mb-3">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide uppercase bg-white/90 text-stone-800 shadow-sm">${item.type}</span>
-                        <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-900/80 text-amber-100 backdrop-blur-sm flex items-center gap-1 shadow-sm">
-                            ★ ${item.rating}
-                        </div>
-                        <button onclick="toggleFavorite(${item.id})" class="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 hover:bg-white text-stone-700 shadow-sm transition-all">
-                            <i data-lucide="heart" class="w-4 h-4 ${item.favorite ? 'fill-rose-500 text-rose-500' : ''}"></i>
-                        </button>
+            grid.innerHTML = filtered.map(item => `
+                <div onclick="openModal(${item.id})" class="bg-white rounded-2xl p-3 border border-pink-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between relative group">
+                    <button onclick="event.stopPropagation(); toggleFavorite(${item.id})" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-sm shadow-sm transition-transform active:scale-95">
+                        ${item.fav ? '❤️' : '🤍'}
+                    </button>
+                    <div class="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-3">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     </div>
                     <div>
-                        <span class="text-[11px] font-semibold text-rose-800 uppercase tracking-wider">${item.brand}</span>
-                        <h4 class="font-serif-title font-semibold text-stone-900 text-sm leading-snug truncate">${item.name}</h4>
-                        <div class="flex flex-wrap gap-1 mt-2">
-                            ${item.notes.map(n => `<span class="px-2 py-0.5 rounded-md text-[10px] bg-stone-100 text-stone-600 font-medium">${n}</span>`).join('')}
-                        </div>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pink-50 text-pink-600">${item.category}</span>
+                        <h4 class="text-xs font-bold text-slate-800 mt-1 line-clamp-2 leading-snug">${item.name}</h4>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-50 flex items-center justify-between text-xs">
+                        <span class="font-semibold text-amber-600 flex items-center gap-1">⭐ ${item.rating}</span>
+                        <span class="text-[10px] text-slate-400">View</span>
                     </div>
                 </div>
             `).join('');
-            
-            lucide.createIcons();
-            document.getElementById('total-count').innerText = collection.length;
-            renderFavorites();
-        }
 
-        function filterCloset() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const filtered = collection.filter(item => {
-                const matchesSearch = item.name.toLowerCase().includes(query) || 
-                                      item.brand.toLowerCase().includes(query) ||
-                                      item.notes.some(n => n.toLowerCase().includes(query));
-                const matchesType = currentTypeFilter === 'all' || item.type === currentTypeFilter;
-                const matchesNote = !currentNoteFilter || item.notes.includes(currentNoteFilter);
-                return matchesSearch && matchesType && matchesNote;
-            });
-            renderGrid(filtered);
-        }
-
-        function filterType(type) {
-            currentTypeFilter = type;
-            document.querySelectorAll('.type-btn').forEach(btn => {
-                if (btn.dataset.type === type) {
-                    btn.className = 'type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-stone-900 text-white shadow-sm whitespace-nowrap';
-                } else {
-                    btn.className = 'type-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white/80 text-stone-700 hover:bg-white border border-stone-200 whitespace-nowrap';
-                }
-            });
-            filterCloset();
-        }
-
-        function toggleFavorite(id) {
-            const item = collection.find(i => i.id === id);
-            if(item) item.favorite = !item.favorite;
-            filterCloset();
+            if (activeTab === 'favorites') {
+                renderFavorites();
+            }
         }
 
         function renderFavorites() {
-            const favGrid = document.getElementById('favorites-grid');
-            const favorites = collection.filter(i => i.favorite);
+            const favGrid = document.getElementById('favoritesGrid');
+            const favs = items.filter(i => i.fav);
 
-            if (favorites.length === 0) {
-                favGrid.innerHTML = `<div class="col-span-full py-16 text-center text-stone-400 text-sm">No saved favorite items yet. Click the heart icon on any item!</div>`;
+            if (favs.length === 0) {
+                favGrid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-sm">No favorite fragrances saved yet. Tap the heart icon on any card!</div>`;
                 return;
             }
 
-            favGrid.innerHTML = favorites.map(item => `
-                <div class="glass-card rounded-2xl overflow-hidden shadow-sm p-3 flex flex-col justify-between">
-                    <div class="aspect-square rounded-xl overflow-hidden bg-stone-100 relative mb-3">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
-                        <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide uppercase bg-white/90 text-stone-800 shadow-sm">${item.type}</span>
+            favGrid.innerHTML = favs.map(item => `
+                <div onclick="openModal(${item.id})" class="bg-white rounded-2xl p-3 border border-pink-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between relative group">
+                    <button onclick="event.stopPropagation(); toggleFavorite(${item.id})" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-sm shadow-sm">
+                        ❤️
+                    </button>
+                    <div class="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-3">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <span class="text-[11px] font-semibold text-rose-800 uppercase tracking-wider">${item.brand}</span>
-                        <h4 class="font-serif-title font-semibold text-stone-900 text-sm leading-snug truncate">${item.name}</h4>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pink-50 text-pink-600">${item.category}</span>
+                        <h4 class="text-xs font-bold text-slate-800 mt-1 line-clamp-2 leading-snug">${item.name}</h4>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-50 flex items-center justify-between text-xs">
+                        <span class="font-semibold text-amber-600">⭐ ${item.rating}</span>
                     </div>
                 </div>
             `).join('');
         }
 
-        function switchTab(tab) {
-            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(`view-${tab}`).classList.remove('hidden');
-            
-            document.querySelectorAll('.tab-btn').forEach(b => {
-                b.classList.remove('text-rose-900', 'border-b-2', 'border-rose-800');
-                b.classList.add('text-stone-500');
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 whitespace-nowrap hover:bg-slate-50";
             });
-            document.getElementById(`tab-${tab}`).classList.add('text-rose-900', 'border-b-2', 'border-rose-800');
-            document.getElementById(`tab-${tab}`).classList.remove('text-stone-500');
+            document.getElementById(`cat-${cat}`).className = "cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-pink-600 text-white whitespace-nowrap shadow-sm";
+            renderItems();
         }
 
-        function generateLayerRecipe(vibe) {
-            const lotions = collection.filter(i => i.type === 'Lotion');
-            const perfumes = collection.filter(i => i.type === 'Perfume');
-            const mists = collection.filter(i => i.type === 'Mist');
+        function filterItems() {
+            renderItems();
+        }
 
-            const base = lotions[Math.floor(Math.random() * lotions.length)] || collection[0];
-            const heart = perfumes[Math.floor(Math.random() * perfumes.length)] || collection[1];
-            const topper = mists[Math.floor(Math.random() * mists.length)] || collection[2];
+        function switchTab(tab) {
+            activeTab = tab;
+            ['closet', 'wizard', 'favorites'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = "flex-1 py-3 text-sm font-medium text-center border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors";
+            });
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = "flex-1 py-3 text-sm font-semibold text-center border-b-2 border-pink-600 text-pink-600 transition-colors";
 
-            const resultContainer = document.getElementById('combo-items-container');
-            document.getElementById('combo-theme').innerText = `${vibe.toUpperCase()} VIBE RITUAL`;
+            if (tab === 'favorites') {
+                renderFavorites();
+            }
+        }
 
-            resultContainer.innerHTML = `
-                <div class="flex items-center space-x-3 p-3 bg-white/80 rounded-xl border border-stone-100 shadow-sm">
-                    <img src="${base.image}" class="w-12 h-12 rounded-lg object-cover">
+        function toggleFavorite(id) {
+            const item = items.find(i => i.id === id);
+            if (item) {
+                item.fav = !item.fav;
+                renderItems();
+            }
+        }
+
+        function openModal(id) {
+            selectedItem = items.find(i => i.id === id);
+            if (!selectedItem) return;
+
+            document.getElementById('modalImg').src = selectedItem.img;
+            document.getElementById('modalCategory').innerText = selectedItem.category;
+            document.getElementById('modalName').innerText = selectedItem.name;
+            document.getElementById('modalRating').innerText = `⭐ ${selectedItem.rating} / 5`;
+            updateModalFavButton();
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            selectedItem = null;
+        }
+
+        function updateModalFavButton() {
+            const btn = document.getElementById('modalFavBtn');
+            if (selectedItem.fav) {
+                btn.innerText = "❤️ Favorited";
+                btn.className = "flex-1 py-2.5 bg-pink-50 border border-pink-300 text-pink-700 rounded-xl font-medium text-sm";
+            } else {
+                btn.innerText = "🤍 Favorite";
+                btn.className = "flex-1 py-2.5 border border-pink-300 text-pink-600 rounded-xl font-medium text-sm hover:bg-pink-50 transition-colors";
+            }
+        }
+
+        function toggleModalFavorite() {
+            if (selectedItem) {
+                selectedItem.fav = !selectedItem.fav;
+                updateModalFavButton();
+                renderItems();
+            }
+        }
+
+        function setWizardMood(mood) {
+            selectedWizardMood = mood;
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.className = "mood-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+            });
+            event.target.className = "mood-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-pink-600 text-white shadow-sm";
+        }
+
+        function generateWizardPairing() {
+            const customQuery = document.getElementById('customVibeInput').value.toLowerCase().trim();
+
+            // Filter or score items based on custom query or mood
+            let availablePool = items;
+            if (customQuery) {
+                const matchedQueryItems = items.filter(i => i.name.toLowerCase().includes(customQuery));
+                if (matchedQueryItems.length > 0) {
+                    availablePool = matchedQueryItems;
+                }
+            }
+
+            const lotions = items.filter(i => i.category === 'Lotion');
+            const oils = items.filter(i => i.category === 'Oil');
+            const perfumes = items.filter(i => i.category === 'Perfume');
+            const mists = items.filter(i => i.category === 'Mist');
+
+            if (lotions.length === 0 || oils.length === 0 || perfumes.length < 2) {
+                alert("Need at least 1 lotion, 1 oil, and 2 perfumes in the closet!");
+                return;
+            }
+
+            // Pick random items
+            const chosenLotion = lotions[Math.floor(Math.random() * lotions.length)];
+            const chosenOil = oils[Math.floor(Math.random() * oils.length)];
+            
+            // Pick two distinct perfumes
+            let p1Index = Math.floor(Math.random() * perfumes.length);
+            let p2Index;
+            do {
+                p2Index = Math.floor(Math.random() * perfumes.length);
+            } while (p2Index === p1Index && perfumes.length > 1);
+            
+            const chosenPerfume1 = perfumes[p1Index];
+            const chosenPerfume2 = perfumes[p2Index];
+            const chosenMist = mists.length > 0 ? mists[Math.floor(Math.random() * mists.length)] : null;
+
+            const resultDiv = document.getElementById('wizardResult');
+            resultDiv.innerHTML = `
+                <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-2xl border border-pink-200 mb-2 flex justify-between items-center">
                     <div>
-                        <span class="text-[10px] font-bold text-rose-800 uppercase">1. Base Layer (Lotion)</span>
-                        <p class="font-medium text-stone-900 text-xs">${base.brand} - ${base.name}</p>
+                        <span class="text-xs font-bold text-pink-700 uppercase tracking-wider">Active Ritual Vibe</span>
+                        <h4 class="text-sm font-bold text-slate-800">${customQuery ? 'Custom: "' + customQuery + '"' : selectedWizardMood}</h4>
+                    </div>
+                    <button onclick="generateWizardPairing()" class="px-3 py-1.5 bg-white border border-pink-300 text-pink-600 rounded-xl text-xs font-semibold shadow-sm hover:bg-pink-50">🔄 Re-roll</button>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Step 1: Lotion -->
+                    <div class="bg-white p-3 rounded-2xl border border-pink-100 shadow-sm flex items-center gap-3">
+                        <img src="${chosenLotion.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0">
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pink-100 text-pink-700">Step 1: Lotion Base</span>
+                            <h4 class="text-xs font-bold text-slate-800 mt-1 truncate">${chosenLotion.name}</h4>
+                            <span class="text-[10px] text-amber-600">⭐ ${chosenLotion.rating}</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Oil -->
+                    <div class="bg-white p-3 rounded-2xl border border-pink-100 shadow-sm flex items-center gap-3">
+                        <img src="${chosenOil.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0">
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">Step 2: Oil Layer</span>
+                            <h4 class="text-xs font-bold text-slate-800 mt-1 truncate">${chosenOil.name}</h4>
+                            <span class="text-[10px] text-amber-600">⭐ ${chosenOil.rating}</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Perfume 1 -->
+                    <div class="bg-white p-3 rounded-2xl border border-pink-100 shadow-sm flex items-center gap-3">
+                        <img src="${chosenPerfume1.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0">
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">Step 3: Primary Perfume</span>
+                            <h4 class="text-xs font-bold text-slate-800 mt-1 truncate">${chosenPerfume1.name}</h4>
+                            <span class="text-[10px] text-amber-600">⭐ ${chosenPerfume1.rating}</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Perfume 2 -->
+                    <div class="bg-white p-3 rounded-2xl border border-pink-100 shadow-sm flex items-center gap-3">
+                        <img src="${chosenPerfume2.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0">
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">Step 4: Accent Perfume</span>
+                            <h4 class="text-xs font-bold text-slate-800 mt-1 truncate">${chosenPerfume2.name}</h4>
+                            <span class="text-[10px] text-amber-600">⭐ ${chosenPerfume2.rating}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-3 p-3 bg-white/80 rounded-xl border border-stone-100 shadow-sm">
-                    <img src="${heart.image}" class="w-12 h-12 rounded-lg object-cover">
-                    <div>
-                        <span class="text-[10px] font-bold text-rose-800 uppercase">2. Heart Layer (Perfume)</span>
-                        <p class="font-medium text-stone-900 text-xs">${heart.brand} - ${heart.name}</p>
+
+                ${chosenMist ? `
+                <div class="bg-white p-3 rounded-2xl border border-pink-100 shadow-sm flex items-center gap-3">
+                    <img src="${chosenMist.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0">
+                    <div class="min-w-0 flex-1">
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">Step 5 (Optional): Body Mist Scent Seal</span>
+                        <h4 class="text-xs font-bold text-slate-800 mt-1 truncate">${chosenMist.name}</h4>
+                        <span class="text-[10px] text-amber-600">⭐ ${chosenMist.rating}</span>
                     </div>
-                </div>
-                <div class="flex items-center space-x-3 p-3 bg-white/80 rounded-xl border border-stone-100 shadow-sm">
-                    <img src="${topper.image}" class="w-12 h-12 rounded-lg object-cover">
-                    <div>
-                        <span class="text-[10px] font-bold text-rose-800 uppercase">3. Topper Mist</span>
-                        <p class="font-medium text-stone-900 text-xs">${topper.brand} - ${topper.name}</p>
-                    </div>
-                </div>
+                </div>` : ''}
             `;
-            document.getElementById('wizard-result').classList.remove('hidden');
         }
 
-        function openAddModal() { document.getElementById('modal-add').classList.remove('hidden'); }
-        function closeAddModal() { document.getElementById('modal-add').classList.add('hidden'); }
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+        }
 
-        function handleAddFragrance(e) {
-            e.preventDefault();
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+        }
+
+        function saveNewItem() {
+            const name = document.getElementById('addName').value.trim();
+            const category = document.getElementById('addCategory').value;
+            const rating = parseFloat(document.getElementById('addRating').value) || 4;
+            const img = document.getElementById('addImg').value.trim() || "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500";
+
+            if (!name) {
+                alert("Please enter a fragrance name.");
+                return;
+            }
+
             const newItem = {
-                id: collection.length + 1,
-                name: document.getElementById('add-name').value,
-                brand: document.getElementById('add-brand').value,
-                type: document.getElementById('add-type').value,
-                notes: document.getElementById('add-notes').value.split(',').map(n => n.trim()),
-                rating: '5.0',
-                image: document.getElementById('add-image').value || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsBwkNUN0ACZ8ZL3nJjWKbqCKSm54Qb_EU_R4jMZ8gqA&s',
-                favorite: false
+                id: items.length + 1,
+                name,
+                category,
+                rating,
+                img,
+                fav: false
             };
-            collection.unshift(newItem);
-            renderGrid(collection);
+
+            items.unshift(newItem);
+            renderItems();
             closeAddModal();
-            e.target.reset();
+
+            document.getElementById('addName').value = '';
+            document.getElementById('addImg').value = '';
         }
 
-        // Initialize App on Load
-        document.addEventListener('DOMContentLoaded', () => {
-            renderGrid(collection);
-            lucide.createIcons();
-        });
+        renderItems();
     </script>
 </body>
 </html>
