@@ -769,8 +769,7 @@
             });
             event.target.className = "mood-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-pink-600 text-white shadow-sm";
         }
-
-        function generateHarmonizedRitual() {
+               function generateHarmonizedRitual() {
             const customQuery = document.getElementById('customVibeInput').value.toLowerCase().trim();
 
             const noteFamilies = {
@@ -785,10 +784,19 @@
 
             function scoreItem(item) {
                 const fullText = `${item.name} ${item.topNotes || ''} ${item.heartNotes || ''} ${item.baseNotes || ''}`.toLowerCase();
-                let score = item.rating * 1.5;
+                let score = item.rating * 0.5; // Reduced weight on generic rating so notes matter more
+                
                 targetKeywords.forEach(kw => {
-                    if (fullText.includes(kw)) score += 4;
+                    if (fullText.includes(kw)) {
+                        score += 8; // Heavy boost if it actually matches the requested mood/note
+                    }
                 });
+
+                // Prevent Baccarat Rouge from permanently locking down anchor spots unless specifically queried
+                if (item.name.includes("Baccarat Rouge") && !targetKeywords.some(kw => fullText.includes(kw))) {
+                    score -= 5;
+                }
+
                 return score;
             }
 
@@ -802,19 +810,19 @@
                 return;
             }
 
-            const chosenLotion = lotions[Math.floor(Math.random() * Math.min(2, lotions.length))];
-            const chosenOil = oils[Math.floor(Math.random() * Math.min(2, oils.length))];
+            const chosenLotion = lotions[0];
+            const chosenOil = oils[0];
             const chosenPerfume1 = perfumes[0];
             
             let chosenPerfume2 = perfumes[1];
-            for (let i = 1; i < Math.min(6, perfumes.length); i++) {
+            for (let i = 1; i < perfumes.length; i++) {
                 if (perfumes[i].id !== chosenPerfume1.id) {
                     chosenPerfume2 = perfumes[i];
                     break;
                 }
             }
 
-            const chosenMist = mists.length > 0 ? mists[Math.floor(Math.random() * Math.min(2, mists.length))] : null;
+            const chosenMist = mists.length > 0 ? mists[0] : null;
 
             lastGeneratedRitual = {
                 title: customQuery ? `Custom: ${customQuery}` : `${selectedWizardMood} Blend`,
@@ -828,7 +836,7 @@
 
             const rationale = customQuery 
                 ? `Structured around your custom focus note "${customQuery}", anchored by ${chosenPerfume1.name}.`
-                : `Harmonized for a **${selectedWizardMood}** profile by bridging gourmand bases with airy top accents.`;
+                : `Harmonized for a **${selectedWizardMood}** profile by bridging matching note profiles across layers.`;
 
             const resultDiv = document.getElementById('wizardResult');
             resultDiv.innerHTML = `
@@ -857,7 +865,7 @@
                     <div class="bg-slate-900/90 p-3 rounded-2xl border border-purple-900/30 shadow-md flex items-center gap-3">
                         <img src="${chosenOil.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 bg-slate-800">
                         <div class="min-w-0 flex-1">
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800/50">Step 2: Scent Primer Oil</span>
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-900/50">Step 2: Scent Primer Oil</span>
                             <h4 class="text-xs font-bold text-slate-100 mt-1 truncate">${chosenOil.name}</h4>
                             <div class="text-[10px] text-slate-400 truncate mt-0.5">Note: ${chosenOil.topNotes}</div>
                             <span class="text-[10px] text-amber-400 font-semibold">⭐ ${chosenOil.rating}</span>
