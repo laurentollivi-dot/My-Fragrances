@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,11 +39,18 @@
                     <h1 class="script-title text-xl sm:text-2xl font-bold bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-300 bg-clip-text text-transparent">
                         My Layering Closet
                     </h1>
-                    <p class="text-xs text-purple-300/70 font-medium">102 Custom Fragrances & Layers</p>
+                    <p class="text-xs text-purple-300/70 font-medium"><span id="header-count">109</span> Custom Fragrances & Layers</p>
                 </div>
             </div>
             
             <div class="flex items-center gap-2">
+                <button onclick="exportData()" class="px-2.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-purple-900/50 text-purple-300 text-xs font-semibold transition-colors" title="Download Backup File">
+                    💾 Backup
+                </button>
+                <label class="px-2.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-purple-900/50 text-purple-300 text-xs font-semibold transition-colors cursor-pointer" title="Restore Backup File">
+                    📂 Restore
+                    <input type="file" id="importFile" accept=".json" onchange="importData(event)" class="hidden">
+                </label>
                 <button onclick="openAddModal()" class="w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-500 text-white flex items-center justify-center shadow-lg transition-transform active:scale-95 text-xl font-bold" title="Add Fragrance">
                     +
                 </button>
@@ -54,7 +60,7 @@
         <!-- Tab Navigation -->
         <div class="max-w-4xl mx-auto px-4 flex border-t border-purple-900/30 overflow-x-auto no-scrollbar">
             <button onclick="switchTab('closet')" id="tab-closet" class="flex-1 min-w-[80px] py-3 text-xs sm:text-sm font-semibold text-center border-b-2 border-pink-500 text-pink-400 transition-colors whitespace-nowrap">
-                Closet (<span id="total-count">102</span>)
+                Closet (<span id="total-count">109</span>)
             </button>
             <button onclick="switchTab('wizard')" id="tab-wizard" class="flex-1 min-w-[95px] py-3 text-xs sm:text-sm font-medium text-center border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors whitespace-nowrap">
                 ✨ Wizard
@@ -198,6 +204,9 @@
                     <button id="modalFavBtn" onclick="toggleModalFavorite()" class="flex-1 py-2.5 border border-pink-500/50 text-pink-400 rounded-xl font-medium text-sm hover:bg-pink-950/40 transition-colors">
                         🤍 Favorite
                     </button>
+                    <button onclick="deleteSelectedItem()" class="px-3.5 py-2.5 bg-red-950/60 border border-red-800/50 text-red-300 rounded-xl font-medium text-sm hover:bg-red-900/60 transition-colors" title="Remove from Closet">
+                        🗑️
+                    </button>
                     <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-800 text-slate-200 border border-slate-700 rounded-xl font-medium text-sm hover:bg-slate-700 transition-colors">
                         Close
                     </button>
@@ -233,8 +242,16 @@
                     <input type="text" id="addImg" placeholder="https://..." class="w-full px-3 py-2 bg-slate-800 border border-purple-900/40 rounded-xl text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Key Notes (comma separated)</label>
-                    <input type="text" id="addNotes" placeholder="Vanilla, Musk, Lychee..." class="w-full px-3 py-2 bg-slate-800 border border-purple-900/40 rounded-xl text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Top Notes (comma separated)</label>
+                    <input type="text" id="addTopNotes" placeholder="e.g. Lychee, Bergamot..." class="w-full px-3 py-2 bg-slate-800 border border-purple-900/40 rounded-xl text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Heart Notes (comma separated)</label>
+                    <input type="text" id="addHeartNotes" placeholder="e.g. Peony, Jasmine..." class="w-full px-3 py-2 bg-slate-800 border border-purple-900/40 rounded-xl text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Base Notes (comma separated)</label>
+                    <input type="text" id="addBaseNotes" placeholder="e.g. Vanilla, White Musk..." class="w-full px-3 py-2 bg-slate-800 border border-purple-900/40 rounded-xl text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
@@ -288,7 +305,7 @@
     </div>
 
     <script>
-        let items = [
+        const DEFAULT_ITEMS = [
             { id: 1, name: "MFK Baccarat Rouge 540 (Eau de Parfum)", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsBwkNUN0ACZ8ZL3nJjWKbqCKSm54Qb_EU_R4jMZ8gqA&s", fav: false, topNotes: "Saffron, Jasmine", heartNotes: "Amberwood, Ambergris", baseNotes: "Fir Resin, Cedar" },
             { id: 2, name: "MFK Oud Satin Mood", category: "Perfume", rating: 2.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTczKajywcjbgNPw6RUGLJYDpX7iRt0mW1Kz3lTBhcYJg&s", fav: false, topNotes: "Violet Accord, Geranium", heartNotes: "Damask Rose, Turkish Rose", baseNotes: "Laotian Oud, Vanilla, Amber" },
             { id: 3, name: "Zara Dark Romance", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROwKbLO-Gowjy0OQA97whdxbadpCt6bHrC_PeveU-byA&s=10", fav: false, topNotes: "Blackcurrant, Bergamot", heartNotes: "Rose, Jasmine", baseNotes: "Patchouli, Vanilla" },
@@ -312,6 +329,9 @@
             { id: 21, name: "Kayali Eden Sweet Peach | 35", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCRXc3gFKxpBpheMo_C7oocKAanRnIcq9HlQb8iobCYQ&s=10", fav: false, topNotes: "Juicy Peach, Blood Orange", heartNotes: "Frangipani, Peach Blossom", baseNotes: "Sugared Amber, Tonka Bean" },
             { id: 22, name: "Kayali Eden Plush Pear | 23", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ZHXa_dVzPJOQTBQELGnE7CAAphBx0_AO375osGVvrw&s", fav: false, topNotes: "Anjou Pear, Bergamot", heartNotes: "Lily of the Valley, Freesia", baseNotes: "Vanilla, Amber" },
             { id: 23, name: "Kayali Eden Juicy Apple | 01", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSylN9PX3fb-wRnDvs5VkDWXJu2W45llJJnzUq87PMPfQ&s=10", fav: false, topNotes: "Red Apple, Blackcurrant, Pink Grapefruit", heartNotes: "Wild Berries, Jasmine, May Rose", baseNotes: "Vanilla Flower, Sugar, Amber" },
+            { id: 103, name: "Kayali Vanilla | 28", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwithamYoLDU6v1uFbF7iYR9ka9qU-eNOAGD4JaAt8PA&s=10", fav: true, topNotes: "Vanilla Orchid, Creamy Jasmine", heartNotes: "Brown Sugar, Tonka Bean", baseNotes: "Amber, Amberwood, Musk, Patchouli" },
+            { id: 104, name: "Kayali Musk 12", category: "Perfume", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2uGtVwT5ueTZgtMqARzQfQcOtvOY1ei0K_qRSIZ2jfg&s=10", fav: false, topNotes: "Lotus Flower, Freesia", heartNotes: "Pure Jasmine, Musk", baseNotes: "Vanilla, Sandalwood, Musk" },
+            { id: 105, name: "Kayali Freedom Musk Matcha", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCBacuyhhMAj0LtW7kYCM6sJCQGXFRXRtU7gkt52qJQQ&s", fav: false, topNotes: "Green Matcha Accord, Bergamot", heartNotes: "Jasmine Petals, Soft Musk", baseNotes: "White Woods, Clean Musk" },
             { id: 24, name: "Mamlakat Al Oud Cotton Abyed", category: "Perfume", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCO99ZT2LrByvu59p1Lm1UalISv6ZFLptiL7k1CiOInQ&s", fav: false, topNotes: "White Cotton, Bergamot", heartNotes: "Soft Musk, Iris", baseNotes: "Vanilla, White Amber" },
             { id: 25, name: "Armaf Club de Nuit Maleka", category: "Perfume", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLZ3i125fyXJ3JOt8ke2CC19CYGsIOASmv1wmkPJRRdw&s=10", fav: false, topNotes: "Peach Nectar, Passionfruit", heartNotes: "Jasmine, Lily", baseNotes: "Vanilla, Musk, Sandalwood" },
             { id: 26, name: "Huda Easy Bake Intense", category: "Perfume", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXwHUIRKa9z7kamkUfyZIptIvqAdlAyaJR1_ZrDox-Wg&s=10", fav: false, topNotes: "Pear Nectar, Pink Pepper", heartNotes: "Tuberose, Ylang-Ylang", baseNotes: "Sugared Vanilla, Amber, Tonka" },
@@ -381,6 +401,10 @@
             { id: 88, name: "EOS Pink Champagne", category: "Lotion", rating: 5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHyfTvtj0As5ytE53cR8HO1ubUDgI37QC0zQpJ28_nA&s=10", fav: false, topNotes: "Sparkling Champagne", heartNotes: "Pink Berries", baseNotes: "Sugared Vanilla" },
             { id: 89, name: "EOS Strawberry", category: "Lotion", rating: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToAuH2_EMqWxvuYioKcvmADSveMy9JJy4Ww6y2e0paww&s", fav: false, topNotes: "Ripe Strawberry", heartNotes: "Sugar", baseNotes: "Vanilla Cream" },
             { id: 90, name: "Laline Frozen Pear", category: "Lotion", rating: 3.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiFLUQ1BvI32p4Ha__8Qrh9A-9P5d1eLfcsvJRMsTEdg&s=10", fav: false, topNotes: "Frozen Pear", heartNotes: "Green Apple", baseNotes: "Clean Musk" },
+            { id: 106, name: "B&BW Berry Bliss", category: "Lotion", rating: 3, img: "https://www.bathandbodyworks.ca/dw/image/v2/BGFZ_PRD/on/demandware.static/-/Sites-bbw_ca-storefront-catalog/default/dw60e93e04/hires/028026778.jpg?sw=1440&q=75&format=auto", fav: false, topNotes: "Wild Berry Nectar", heartNotes: "Sugar Crystals", baseNotes: "Vanilla Cream" },
+            { id: 107, name: "B&BW Plum Please", category: "Lotion", rating: 4, img: "https://www.bathandbodyworks.ca/dw/image/v2/BGFZ_PRD/on/demandware.static/-/Sites-bbw_ca-storefront-catalog/default/dw60e93e04/hires/028026778.jpg?sw=1440&q=75&format=auto", fav: false, topNotes: "Juicy Sugar Plum", heartNotes: "Sugared Petals", baseNotes: "Warm Musk" },
+            { id: 108, name: "B&BW In the Stars", category: "Lotion", rating: 4, img: "https://www.bathandbodyworks.ca/dw/image/v2/BGFZ_PRD/on/demandware.static/-/Sites-bbw_ca-storefront-catalog/default/dw2d161118/hires/028017805.jpg?sw=1440&q=75&format=auto", fav: false, topNotes: "Starflower, Sandalwood", heartNotes: "Sogged Amber, Tangelo", baseNotes: "White Agarwood, Radiant Amber" },
+            { id: 109, name: "B&BW Worth Wanting", category: "Lotion", rating: 3.5, img: "https://www.bathandbodyworks.ca/dw/image/v2/BGFZ_PRD/on/demandware.static/-/Sites-bbw_ca-storefront-catalog/default/dw20e4e196/hires/028029071_alt_3.jpg?sw=1440&q=75&format=auto", fav: false, topNotes: "Golden Pear, Blackberry", heartNotes: "Jasmine Petals", baseNotes: "Whipped Vanilla, Cashmere Musk" },
             
             // Oils
             { id: 91, name: "Laline Frozen Pear (Oil)", category: "Oil", rating: 4.5, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcYTXUK2Fu1eYF4KZRSmHobjO-HOp1nleT9bU2In5WVw&s", fav: false, topNotes: "Crisp Pear", heartNotes: "Water Lily", baseNotes: "Skin Musk" },
@@ -399,7 +423,7 @@
             { id: 102, name: "I love Peachy Passionfruit Spritz", category: "Mist", rating: 4, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl27DAqfaGnOSjncjvQFU_EuSaXSbR5fjXpQmS5x215LPDot0ITTHaT6o&s=10", fav: false, topNotes: "Passionfruit, Peach", heartNotes: "Tropical Mango", baseNotes: "Sugar" }
         ];
 
-        let favoriteCombos = [
+        const DEFAULT_COMBOS = [
             {
                 id: 1,
                 title: "Signature Lychee Cloud",
@@ -412,6 +436,85 @@
             }
         ];
 
+        const STORAGE_ITEMS_KEY = 'layeringCloset_items_v2';
+        const STORAGE_COMBOS_KEY = 'layeringCloset_combos_v2';
+
+        function loadState() {
+            let savedItems = null;
+            let savedCombos = null;
+            try {
+                savedItems = JSON.parse(localStorage.getItem(STORAGE_ITEMS_KEY));
+                savedCombos = JSON.parse(localStorage.getItem(STORAGE_COMBOS_KEY));
+            } catch (e) {
+                console.error("Could not load saved closet state:", e);
+            }
+
+            if (Array.isArray(savedItems) && savedItems.length > 0) {
+                const existingNames = new Set(savedItems.map(i => i.name.toLowerCase()));
+                DEFAULT_ITEMS.forEach(def => {
+                    if (!existingNames.has(def.name.toLowerCase())) {
+                        savedItems.unshift(def);
+                    }
+                });
+                items = savedItems;
+            } else {
+                items = [...DEFAULT_ITEMS];
+            }
+
+            if (Array.isArray(savedCombos)) {
+                favoriteCombos = savedCombos;
+            } else {
+                favoriteCombos = [...DEFAULT_COMBOS];
+            }
+            saveState();
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_ITEMS_KEY, JSON.stringify(items));
+                localStorage.setItem(STORAGE_COMBOS_KEY, JSON.stringify(favoriteCombos));
+            } catch (e) {
+                console.error("Could not save closet state:", e);
+            }
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify({ items, favoriteCombos }, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `my-layering-closet-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (Array.isArray(parsed.items)) {
+                        items = parsed.items;
+                    }
+                    if (Array.isArray(parsed.favoriteCombos)) {
+                        favoriteCombos = parsed.favoriteCombos;
+                    }
+                    saveState();
+                    renderItems();
+                    alert("✨ Closet backup restored successfully!");
+                } catch (err) {
+                    alert("Invalid backup file format.");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        let items = [];
+        let favoriteCombos = [];
         let currentCategory = 'All';
         let activeTab = 'closet';
         let selectedItem = null;
@@ -429,6 +532,7 @@
                 return matchesCat && matchesSearch;
             });
 
+            document.getElementById('header-count').innerText = items.length;
             document.getElementById('total-count').innerText = items.length;
             document.getElementById('fav-count').innerText = items.filter(i => i.fav).length;
             document.getElementById('combo-count').innerText = favoriteCombos.length;
@@ -569,6 +673,7 @@
             const item = items.find(i => i.id === id);
             if (item) {
                 item.fav = !item.fav;
+                saveState();
                 renderItems();
             }
         }
@@ -595,7 +700,18 @@
             let newRating = Math.min(5, Math.max(0, selectedItem.rating + delta));
             selectedItem.rating = newRating;
             document.getElementById('modalRatingText').innerText = `⭐ ${selectedItem.rating} / 5`;
+            saveState();
             renderItems();
+        }
+
+        function deleteSelectedItem() {
+            if (!selectedItem) return;
+            if (confirm(`Remove "${selectedItem.name}" from your closet?`)) {
+                items = items.filter(i => i.id !== selectedItem.id);
+                saveState();
+                closeModal();
+                renderItems();
+            }
         }
 
         function closeModal() {
@@ -618,6 +734,7 @@
             if (selectedItem) {
                 selectedItem.fav = !selectedItem.fav;
                 updateModalFavButton();
+                saveState();
                 renderItems();
             }
         }
@@ -641,230 +758,4 @@
                 'Seductive Floral': ['rose', 'peony', 'jasmine', 'tuberose', 'gardenia', 'freesia', 'orchid']
             };
 
-            const targetKeywords = customQuery ? [customQuery] : (noteFamilies[selectedWizardMood] || ['vanilla', 'musk']);
-
-            function scoreItem(item) {
-                const fullText = `${item.name} ${item.topNotes} ${item.heartNotes} ${item.baseNotes}`.toLowerCase();
-                let score = item.rating * 1.5;
-                targetKeywords.forEach(kw => {
-                    if (fullText.includes(kw)) score += 4;
-                });
-                return score;
-            }
-
-            const lotions = [...items.filter(i => i.category === 'Lotion')].sort((a,b) => scoreItem(b) - scoreItem(a));
-            const oils = [...items.filter(i => i.category === 'Oil')].sort((a,b) => scoreItem(b) - scoreItem(a));
-            const perfumes = [...items.filter(i => i.category === 'Perfume')].sort((a,b) => scoreItem(b) - scoreItem(a));
-            const mists = [...items.filter(i => i.category === 'Mist')].sort((a,b) => scoreItem(b) - scoreItem(a));
-
-            if (lotions.length === 0 || oils.length === 0 || perfumes.length < 2) {
-                alert("Need at least 1 lotion, 1 oil, and 2 perfumes in your closet!");
-                return;
-            }
-
-            const chosenLotion = lotions[Math.floor(Math.random() * Math.min(2, lotions.length))];
-            const chosenOil = oils[Math.floor(Math.random() * Math.min(2, oils.length))];
-            const chosenPerfume1 = perfumes[0];
             
-            let chosenPerfume2 = perfumes[1];
-            for (let i = 1; i < Math.min(6, perfumes.length); i++) {
-                if (perfumes[i].id !== chosenPerfume1.id) {
-                    chosenPerfume2 = perfumes[i];
-                    break;
-                }
-            }
-
-            const chosenMist = mists.length > 0 ? mists[Math.floor(Math.random() * Math.min(2, mists.length))] : null;
-
-            lastGeneratedRitual = {
-                title: customQuery ? `Custom: ${customQuery}` : `${selectedWizardMood} Blend`,
-                desc: `Formulated via Perfumist Engine (${customQuery || selectedWizardMood})`,
-                lotion: chosenLotion.name,
-                oil: chosenOil.name,
-                perfume1: chosenPerfume1.name,
-                perfume2: chosenPerfume2.name,
-                mist: chosenMist ? chosenMist.name : null
-            };
-
-            const rationale = customQuery 
-                ? `Structured around your custom focus note "${customQuery}", anchored by ${chosenPerfume1.name}.`
-                : `Harmonized for a **${selectedWizardMood}** profile by bridging gourmand bases with airy top accents.`;
-
-            const resultDiv = document.getElementById('wizardResult');
-            resultDiv.innerHTML = `
-                <div class="bg-slate-900/90 p-4 rounded-2xl border border-purple-900/50 shadow-xl mb-2 space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-pink-400 uppercase tracking-wider">👑 Perfumist Harmony Formula</span>
-                        <div class="flex gap-2">
-                            <button onclick="saveCurrentGeneratedCombo()" class="px-3 py-1 bg-pink-600 text-white rounded-xl text-xs font-semibold shadow-sm hover:bg-pink-50">❤️ Save to Combos</button>
-                            <button onclick="generateHarmonizedRitual()" class="px-3 py-1 bg-slate-800 border border-purple-900/50 text-purple-300 rounded-xl text-xs font-semibold shadow-sm hover:bg-slate-700">🔄 Reformulate</button>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-300">${rationale}</p>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-purple-900/30 shadow-md flex items-center gap-3">
-                        <img src="${chosenLotion.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 bg-slate-800">
-                        <div class="min-w-0 flex-1">
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pink-950 text-pink-300 border border-pink-900/50">Step 1: Hydration Base</span>
-                            <h4 class="text-xs font-bold text-slate-100 mt-1 truncate">${chosenLotion.name}</h4>
-                            <div class="text-[10px] text-slate-400 truncate mt-0.5">Note: ${chosenLotion.baseNotes || chosenLotion.topNotes}</div>
-                            <span class="text-[10px] text-amber-400 font-semibold">⭐ ${chosenLotion.rating}</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-purple-900/30 shadow-md flex items-center gap-3">
-                        <img src="${chosenOil.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 bg-slate-800">
-                        <div class="min-w-0 flex-1">
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800/50">Step 2: Scent Primer Oil</span>
-                            <h4 class="text-xs font-bold text-slate-100 mt-1 truncate">${chosenOil.name}</h4>
-                            <div class="text-[10px] text-slate-400 truncate mt-0.5">Note: ${chosenOil.topNotes}</div>
-                            <span class="text-[10px] text-amber-400 font-semibold">⭐ ${chosenOil.rating}</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-purple-900/30 shadow-md flex items-center gap-3">
-                        <img src="${chosenPerfume1.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 bg-slate-800">
-                        <div class="min-w-0 flex-1">
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-900/50">Step 3: Anchor EDP</span>
-                            <h4 class="text-xs font-bold text-slate-100 mt-1 truncate">${chosenPerfume1.name}</h4>
-                            <div class="text-[10px] text-slate-400 truncate mt-0.5">Base: ${chosenPerfume1.baseNotes}</div>
-                            <span class="text-[10px] text-amber-400 font-semibold">⭐ ${chosenPerfume1.rating}</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-900/90 p-3 rounded-2xl border border-purple-900/30 shadow-md flex items-center gap-3">
-                        <img src="${chosenPerfume2.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 bg-slate-800">
-                        <div class="min-w-0 flex-1">
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-900/50">Step 4: Accent EDP</span>
-                            <h4 class="text-xs font-bold text-slate-100 mt-1 truncate">${chosenPerfume2.name}</h4>
-                            <div class="text-[10px] text-slate-400 truncate mt-0.5">Top: ${chosenPerfume2.topNotes}</div>
-                            <span class="text-[10px] text-amber-400 font-semibold">⭐ ${chosenPerfume2.rating}</span>
-                        </div>
-                    </div>
-                </div>
-
-                ${chosenMist ? `
-                <div class="bg-slate-900/90 p-3 rounded-2xl border border-purple-900/30 shadow-md flex items-center gap-3">
-                    <img src="${chosenMist.img}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 bg-slate-800">
-                    <div class="min-w-0 flex-1">
-                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-950 text-rose-300 border border-rose-900/50">Step 5: Aura Scent Seal Mist</span>
-                        <h4 class="text-xs font-bold text-slate-100 mt-1 truncate">${chosenMist.name}</h4>
-                        <div class="text-[10px] text-slate-400 truncate mt-0.5">Top: ${chosenMist.topNotes}</div>
-                        <span class="text-[10px] text-amber-400 font-semibold">⭐ ${chosenMist.rating}</span>
-                    </div>
-                </div>` : ''}
-            `;
-        }
-
-        function saveCurrentGeneratedCombo() {
-            if (!lastGeneratedRitual) return;
-            favoriteCombos.unshift({
-                id: Date.now(),
-                ...lastGeneratedRitual
-            });
-            alert("✨ Successfully saved ritual to your Combo Favorites!");
-            switchTab('combos');
-        }
-
-        function deleteCombo(id) {
-            favoriteCombos = favoriteCombos.filter(c => c.id !== id);
-            renderCombos();
-        }
-
-        function openCreateComboModal() {
-            const lotions = items.filter(i => i.category === 'Lotion');
-            const oils = items.filter(i => i.category === 'Oil');
-            const perfumes = items.filter(i => i.category === 'Perfume');
-            const mists = items.filter(i => i.category === 'Mist');
-
-            document.getElementById('comboLotion').innerHTML = lotions.map(l => `<option value="${l.name}">${l.name}</option>`).join('');
-            document.getElementById('comboOil').innerHTML = oils.map(o => `<option value="${o.name}">${o.name}</option>`).join('');
-            document.getElementById('comboPerfume1').innerHTML = perfumes.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
-            document.getElementById('comboPerfume2').innerHTML = perfumes.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
-            document.getElementById('comboMist').innerHTML = `<option value="">-- None --</option>` + mists.map(m => `<option value="${m.name}">${m.name}</option>`).join('');
-
-            document.getElementById('customComboTitle').value = '';
-            document.getElementById('customComboDesc').value = '';
-            document.getElementById('createComboModal').classList.remove('hidden');
-        }
-
-        function closeCreateComboModal() {
-            document.getElementById('createComboModal').classList.add('hidden');
-        }
-
-        function saveCustomCombo() {
-            const title = document.getElementById('customComboTitle').value.trim();
-            const desc = document.getElementById('customComboDesc').value.trim() || "Custom handcrafted layering recipe";
-            const lotion = document.getElementById('comboLotion').value;
-            const oil = document.getElementById('comboOil').value;
-            const perfume1 = document.getElementById('comboPerfume1').value;
-            const perfume2 = document.getElementById('comboPerfume2').value;
-            const mist = document.getElementById('comboMist').value;
-
-            if (!title) {
-                alert("Please give your combo a title!");
-                return;
-            }
-
-            favoriteCombos.unshift({
-                id: Date.now(),
-                title,
-                desc,
-                lotion,
-                oil,
-                perfume1,
-                perfume2,
-                mist: mist ? mist : null
-            });
-
-            closeCreateComboModal();
-            switchTab('combos');
-        }
-
-        function openAddModal() {
-            document.getElementById('addModal').classList.remove('hidden');
-        }
-
-        function closeAddModal() {
-            document.getElementById('addModal').classList.add('hidden');
-        }
-
-        function saveNewItem() {
-            const name = document.getElementById('addName').value.trim();
-            const category = document.getElementById('addCategory').value;
-            const rating = parseFloat(document.getElementById('addRating').value) || 4;
-            const img = document.getElementById('addImg').value.trim() || "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500";
-            const notes = document.getElementById('addNotes').value.trim() || "Custom Notes";
-
-            if (!name) {
-                alert("Please enter a fragrance name.");
-                return;
-            }
-
-            const newItem = {
-                id: items.length + 1,
-                name,
-                category,
-                rating,
-                img,
-                fav: false,
-                topNotes: notes,
-                heartNotes: notes,
-                baseNotes: notes
-            };
-
-            items.unshift(newItem);
-            renderItems();
-            closeAddModal();
-
-            document.getElementById('addName').value = '';
-            document.getElementById('addImg').value = '';
-            document.getElementById('addNotes').value = '';
-        }
-
-        renderItems();
-    </script>
-</body>
-</html>
